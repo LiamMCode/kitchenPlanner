@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+
+  "compilerOptions": {
+    "baseUrl": "../",
+    "paths": {
+        "~/ui/*": ["./ui/*"],
+        "~/engine/*": ["./engine/*"],
+    },
+  },
+
+  "include": [
+    "./**/*.ts"
+  ]
+}

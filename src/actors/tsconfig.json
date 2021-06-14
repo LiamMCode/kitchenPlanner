@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.json",
+
+  "compilerOptions": {
+    "lib": [
+        "esnext",
+        "webworker",
+    ],
+
+    "baseUrl": "../",
+    "paths": {
+        "~/actors/*": ["./actors/*"],
+        "~/engine/*": ["./engine/*"],
+    },
+  },
+
+  "include": [
+    "./**/*.ts"
+  ]
+}
