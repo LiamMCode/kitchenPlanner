@@ -21,6 +21,11 @@ export class Polygon {
         return this.points;
     }
 
+    public getCentre(): Point {
+        let points = this.getPoints();
+        return points[0].midpointTo(points[2]);
+    }
+
     public getStart(): Point {
         return this.points[0];
     }

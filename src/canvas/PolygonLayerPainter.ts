@@ -1,5 +1,6 @@
 import { PolygonPainter } from 'app/canvas/PolygonPainter';
 import { PolygonRepository } from 'app/canvas/PolygonRepository';
+import { Units } from 'app/canvas/PolygonFactory';
 
 export class PolygonLayerPainter {
     constructor(
@@ -9,7 +10,7 @@ export class PolygonLayerPainter {
 
     public paint(): void {
         for (const polygon of this.repository.findAll()) {
-            this.painter.paint(polygon);
+            this.painter.paint(polygon, Units.A);
         }
     }
 }
