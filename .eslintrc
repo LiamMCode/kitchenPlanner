@@ -1,27 +1,51 @@
-  {
-    "root": true,
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
-    "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended", 
-        "airbnb"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
+    {
+        "root": true,
+        "env": {
+                "browser": true,
+                "es2021": true
         },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "@typescript-eslint"
-    ],
-    "ignorePatterns": [
-        "dist/**"
-    ]
+        "extends": [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/eslint-recommended",
+                "plugin:@typescript-eslint/recommended", 
+                "airbnb"
+        ],
+        "parser": "@typescript-eslint/parser",
+        "parserOptions": {
+                "ecmaFeatures": {
+                        "jsx": true
+                },
+                "ecmaVersion": 12,
+                "sourceType": "module",
+                "project":"./tsconfig.json"
+        },
+        "settings": {
+                "import/resolver": {
+                    "node": {
+                        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+                    }
+                }
+            },
+        "plugins": [
+                "@typescript-eslint"
+        ],
+        "ignorePatterns": [
+                "dist/**", 
+                "test/**"
+        ], 
+        "rules": {
+                "import/extensions": "off",
+                "no-unused-vars": "off",
+                "import/prefer-default-export": "off",
+                "no-empty-function": "off", 
+                "no-useless-constructor": "off", 
+                "no-plusplus": "off", 
+                "no-console": "off", 
+                "no-shadow": "off", 
+                "no-param-reassign": "off",
+                "class-methods-use-this": "off", 
+                "no-restricted-syntax": "off", 
+                "guard-for-in": "off", 
+                "import/no-unresolved": "off"
+        }
 }

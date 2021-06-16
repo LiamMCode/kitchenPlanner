@@ -10,7 +10,7 @@ import { PolygonRepository } from './src/canvas/PolygonRepository';
 import { RenderingContext } from './src/canvas/RenderingContext';
 import { Vector } from './src/canvas/Vector';
 import { WorldPainter } from './src/canvas/WorldPainter';
-import { pick } from './src/canvas/UnitUtils';
+import { getUnit } from './src/canvas/UnitsMap';
 
 const canvas = document.createElement('canvas');
 
@@ -25,26 +25,26 @@ const polygonLayerPainter = new PolygonLayerPainter(polygonRepository, polygonPa
 
 const polygonFactory = new PolygonFactory();
 const unit = UnitSize.A; // user selection UPDATE to
-const { width, height, depth } = pick(unit);
+const { dimensions } = getUnit(unit);
 
-const polygon = polygonFactory.createRectangle(new Dimensions(width, height, depth), unit)
-    .transform(Matrix.rotateXZ(45))
-    .translate(new Vector(500, 0, 250));
+const polygon = polygonFactory.createRectangle(dimensions, unit)
+  .transform(Matrix.rotateXZ(45))
+  .translate(new Vector(500, 0, 250));
 
-const unit2 = UnitSize.B
-const polygon2 = polygonFactory.createRectangle(new Dimensions(pick(unit2).width, pick(unit2).height, pick(unit2).depth), unit2)
-    .transform(Matrix.rotateXZ(45))
-    .translate(new Vector(1000, 0, 250));
+const unit2 = UnitSize.B;
+const polygon2 = polygonFactory.createRectangle(dimensions, unit2)
+  .transform(Matrix.rotateXZ(45))
+  .translate(new Vector(1000, 0, 250));
 
-const unit3 = UnitSize.C
-const polygon3 = polygonFactory.createRectangle(new Dimensions(pick(unit3).width, pick(unit3).height, pick(unit3).depth), unit3)
-    .transform(Matrix.rotateXZ(45))
-    .translate(new Vector(1500, 150, 250));
+const unit3 = UnitSize.C;
+const polygon3 = polygonFactory.createRectangle(dimensions, unit3)
+  .transform(Matrix.rotateXZ(45))
+  .translate(new Vector(1500, 150, 250));
 
-const unit4 = UnitSize.D
-const polygon4 = polygonFactory.createRectangle(new Dimensions(pick(unit4).width, pick(unit4).height, pick(unit4).depth), unit4)
-    .transform(Matrix.rotateXZ(45))
-    .translate(new Vector(1700, 150, 250));
+const unit4 = UnitSize.D;
+const polygon4 = polygonFactory.createRectangle(dimensions, unit4)
+  .transform(Matrix.rotateXZ(45))
+  .translate(new Vector(1700, 150, 250));
 
 polygonRepository.push(polygon);
 polygon.getCentre();
@@ -58,8 +58,8 @@ const mouseEventRouter = new MouseEventRouter(camera);
 mouseEventRouter.register(document);
 
 const worldPainter = new WorldPainter(renderingContext, [
-    gridLayerPainter,
-    polygonLayerPainter,
+  gridLayerPainter,
+  polygonLayerPainter,
 ]);
 
 const ticksPerSecond = 60;
@@ -68,6 +68,6 @@ const msPerTick = 1000 / ticksPerSecond;
 document.body.appendChild(canvas);
 
 setInterval(() => {
-    renderingContext.fitToScreen();
-    worldPainter.paint();
+  renderingContext.fitToScreen();
+  worldPainter.paint();
 }, msPerTick);

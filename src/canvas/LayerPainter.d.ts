@@ -1,3 +1,3 @@
 export interface LayerPainter {
-    paint(): void;
+        paint(): void;
 }
