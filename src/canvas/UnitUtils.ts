@@ -1,5 +1,5 @@
-import { Units } from "./PolygonFactory";
-import { MAP } from "./UnitsMap";
+import { UnitSize } from './PolygonFactory';
+import { WIDGET_MAP } from './UnitsMap';
 
 interface UnitStyle {
     borderColour: string, 
@@ -8,10 +8,11 @@ interface UnitStyle {
     width: number,
     depth: number,
     unitID: number, 
-}
+};
 
-export type map = Partial<Record<Units, UnitStyle>>;
+export type UnitMapping = Record<UnitSize, UnitStyle>
+//{[key in UnitSize]?: UnitStyle;}
 
-export function pick(a: Units) {
-    return MAP[a];
+export function pick(a: UnitSize) {
+    return WIDGET_MAP[a];
 }

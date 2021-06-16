@@ -1,6 +1,6 @@
 import { PolygonPainter } from 'app/canvas/PolygonPainter';
 import { PolygonRepository } from 'app/canvas/PolygonRepository';
-import { Units } from 'app/canvas/PolygonFactory';
+import { UnitSize } from 'app/canvas/PolygonFactory';
 
 export class PolygonLayerPainter {
     constructor(
@@ -9,8 +9,20 @@ export class PolygonLayerPainter {
     ) {}
 
     public paint(): void {
-        for (const polygon of this.repository.findAll()) {
-            this.painter.paint(polygon, Units.A);
+        const enums: UnitSize[] = [];
+        for (let units in UnitSize) {
+            enums.push(units as UnitSize);
+        }
+        // let i = 0;
+        // for (const polygon of this.repository.findAll()) {
+        //     this.painter.paint(polygon, enums[i]);
+        //     i++;
+        // }
+
+        const polygons = this.repository.findAll();
+        
+        for (let i = 0; i < polygons.length; i++) {
+            this.painter.paint(polygons[i], enums[i]);
         }
     }
 }

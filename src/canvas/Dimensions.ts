@@ -1,21 +1,21 @@
 import { pick } from "./UnitUtils";
-import { Units } from 'app/canvas/PolygonFactory';
+import { UnitSize } from 'app/canvas/PolygonFactory';
 
 export class Dimensions {
     constructor(private width: number, private height: number, private depth: number) {}
 
-    public getWidth(unitType: Units): number {
-        this.width = pick(unitType).width;
+    public getWidth(unitDimensions: UnitSize): number {
+        this.width = pick(unitDimensions).width;
         return this.width;
     }
 
-    public getHeight(unitType: Units): number {
-        this.height = pick(unitType).height;
+    public getHeight(unitDimensions: UnitSize): number {
+        this.height = pick(unitDimensions).height;
         return this.height;
     }
 
-    public getDepth(unitType: Units): number {
-        this.depth = pick(unitType).depth;
+    public getDepth(unitDimensions: UnitSize): number {
+        this.depth = pick(unitDimensions).depth;
         return this.depth;
     }
 }

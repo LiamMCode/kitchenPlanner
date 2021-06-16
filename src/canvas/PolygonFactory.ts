@@ -2,15 +2,15 @@ import { Dimensions } from 'app/canvas/Dimensions';
 import { Point } from 'app/canvas/Point';
 import { Polygon } from 'app/canvas/Polygon';
 
-export enum Units {
-    A = 'a',
-    B = 'b',
-    C = 'c',
-    D = 'd',
+export enum UnitSize {
+    A = 'A',
+    B = 'B',
+    C = 'C',
+    D = 'D',
 }
 
 export class PolygonFactory {
-    public createRectangle(dimensions: Dimensions, unit: Units): Polygon {
+    public createRectangle(dimensions: Dimensions, unit: UnitSize): Polygon {
         const width = dimensions.getWidth(unit);
         const depth = dimensions.getDepth(unit);
 

@@ -1,8 +1,8 @@
-import { Units } from "./PolygonFactory";
-import { map } from "./UnitUtils";
+import { UnitSize } from "./PolygonFactory";
+import { UnitMapping } from "./UnitUtils";
 
-export const MAP: map = {
-    [Units.A]: {
+export const WIDGET_MAP: UnitMapping = {
+    [UnitSize.A]: {
         borderColour: '#72757B', 
         fillColour: '#E5EBF7', 
         height: 720,
@@ -10,7 +10,7 @@ export const MAP: map = {
         depth: 400,
         unitID: 3762, 
     },
-    [Units.B]: {
+    [UnitSize.B]: {
         borderColour: '#72757B', 
         fillColour: '#E5EBF7', 
         height: 720,
@@ -18,7 +18,7 @@ export const MAP: map = {
         depth: 330,
         unitID: 3568, 
     },
-    [Units.C]: {
+    [UnitSize.C]: {
         borderColour: '#72757B', 
         fillColour: '#FFFEE7', 
         height: 720,
@@ -26,7 +26,7 @@ export const MAP: map = {
         depth: 620,
         unitID: 10810, 
     },
-    [Units.D]: {
+    [UnitSize.D]: {
         borderColour: '#72757B', 
         fillColour: '#FFFEE7', 
         height: 720,
