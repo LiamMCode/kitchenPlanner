@@ -2,7 +2,6 @@ import { Polygon } from './Polygon';
 import { RenderingContext } from './RenderingContext';
 import { UnitSize } from './PolygonFactory';
 import { getUnit } from './UnitsMap';
-import { UnitMapping } from './UnitUtils';
 
 export class PolygonPainter {
   constructor(private context: RenderingContext) {}

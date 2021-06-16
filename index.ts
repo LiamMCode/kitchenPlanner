@@ -1,5 +1,4 @@
 import { Camera } from './src/canvas/Camera';
-import { Dimensions } from './src/canvas/Dimensions';
 import { GridLayerPainter } from './src/canvas/GridLayerPainter';
 import { Matrix } from './src/canvas/Matrix';
 import { MouseEventRouter } from './src/canvas/MouseEventRouter';

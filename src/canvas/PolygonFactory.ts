@@ -5,7 +5,7 @@ import { Polygon } from './Polygon';
 export enum UnitSize {
         A = 'A',
         B = 'B',
-        C = 'C', 
+        C = 'C',
         D = 'D'
 }
 

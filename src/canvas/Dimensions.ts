@@ -1,6 +1,3 @@
-import { UnitSize } from './PolygonFactory';
-import { getUnit } from './UnitsMap';
-
 export class Dimensions {
   constructor(private width: number, private height: number, private depth: number) {}
 
