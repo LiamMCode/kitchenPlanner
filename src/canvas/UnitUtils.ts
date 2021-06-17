@@ -8,4 +8,4 @@ export interface UnitStyle {
     unitID: number;
 }
 
-export type UnitMapping = Record<UnitSize, UnitStyle>
+export type UnitMapping = Record<UnitSize, UnitStyle>;

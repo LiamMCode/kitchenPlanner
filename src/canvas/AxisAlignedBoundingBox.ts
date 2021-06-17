@@ -1,21 +1,21 @@
 import { Point } from './Point';
 
 export class AxisAlignedBoundingBox {
-  constructor(private min: Point, private max: Point) {}
+    constructor(private min: Point, private max: Point) {}
 
-  public getLeft(): number {
-    return this.min.getX();
-  }
+    public getLeft(): number {
+        return this.min.getX();
+    }
 
-  public getRight(): number {
-    return this.max.getX();
-  }
+    public getRight(): number {
+        return this.max.getX();
+    }
 
-  public getTop(): number {
-    return this.min.getZ();
-  }
+    public getTop(): number {
+        return this.min.getZ();
+    }
 
-  public getBottom(): number {
-    return this.max.getZ();
-  }
+    public getBottom(): number {
+        return this.max.getZ();
+    }
 }
