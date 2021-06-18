@@ -9,7 +9,7 @@ import { PolygonRepository } from './src/canvas/PolygonRepository';
 import { RenderingContext } from './src/canvas/RenderingContext';
 import { Vector } from './src/canvas/Vector';
 import { WorldPainter } from './src/canvas/WorldPainter';
-import { getUnit, WIDGET_MAP } from './src/canvas/UnitsMap';
+import { getUnit } from './src/canvas/UnitsMap';
 
 const canvas = document.createElement('canvas');
 
@@ -24,56 +24,160 @@ const polygonLayerPainter = new PolygonLayerPainter(
     polygonRepository,
     polygonPainter
 );
+// const wallUnitPainter = new PolygonLayerPainter(
+//     polygonRepository,
+//     polygonPainter
+// );
+
 const polygonFactory = new PolygonFactory();
 
-function getMapandUnit(selected: string) {
-    let unit;
-    console.log(selected);
-    switch (selected) {
-        case 'A':
-            unit = UnitSize.A;
-            break;
-        case 'B':
-            unit = UnitSize.B;
-            break;
-        case 'C':
-            unit = UnitSize.C;
-            break;
-        case 'D':
-            unit = UnitSize.D;
-            break;
-        case 'E':
-            unit = UnitSize.E;
-    }
+const navWallUnitsA = document.getElementById('WallSizeA');
+const navWallUnitsB = document.getElementById('WallSizeB');
 
-    console.log('clicked ' + selected);
+const navBaseUnitsA = document.getElementById('BaseSizeA');
+const navBaseUnitsB = document.getElementById('BaseSizeB');
 
-    const map = WIDGET_MAP;
-    const { dimensions } = getUnit(unit);
-    console.log(dimensions);
+const navTowerUnitsA = document.getElementById('TowerSizeA');
+const navTowerUnitsB = document.getElementById('TowerSizeB');
+
+const navDecorUnitsA = document.getElementById('DecorSizeA');
+const navDecorUnitsB = document.getElementById('DecorSizeB');
+const navDecorUnitsC = document.getElementById('DecorSizeC');
+const navDecorUnitsD = document.getElementById('DecorSizeD');
+const navDecorUnitsE = document.getElementById('DecorSizeE');
+const navDecorUnitsF = document.getElementById('DecorSizeF');
+
+const navWorktopUnitsA = document.getElementById('WorktopSizeA');
+const navWorktopUnitsB = document.getElementById('WorktopSizeB');
+
+function drawSelected(element: HTMLElement): void {
+    getMapandUnit(element.id as UnitSize);
+}
+
+navWallUnitsA.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+navWallUnitsB.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+navBaseUnitsA.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+navBaseUnitsB.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+navTowerUnitsA.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+navTowerUnitsB.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+navDecorUnitsA.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+navDecorUnitsB.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+navDecorUnitsC.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+navDecorUnitsD.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+navDecorUnitsE.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+navDecorUnitsF.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+navWorktopUnitsA.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+navWorktopUnitsB.addEventListener(
+    'click',
+    function () {
+        drawSelected(this);
+    },
+    false
+);
+
+export function getMapandUnit(selectedUnitSize: UnitSize): void {
+    polygonLayerPainter.setUnit(selectedUnitSize);
+    console.log('clicked ' + selectedUnitSize);
+
+    const { dimensions } = getUnit(selectedUnitSize);
     const polygon = polygonFactory
-        .createRectangle(dimensions, unit)
+        .createRectangle(dimensions, selectedUnitSize)
         .transform(Matrix.rotateXZ(45))
-        .translate(new Vector(500, 0, 250));
+        .translate(new Vector(1500, 0, 250));
 
     polygonRepository.push(polygon);
     polygon.getCentre();
 }
-
-const navWallUnits =
-    document.body.children[0].children[1].children[0].children[0]; // gets navBar
-
-const navWallUnitsChild = navWallUnits.children[1];
-console.log(navWallUnitsChild);
-const userSelection =
-    navWallUnitsChild.getElementsByClassName('nav-link')[1].innerHTML;
-navWallUnitsChild.addEventListener(
-    'click',
-    function () {
-        getMapandUnit(userSelection);
-    },
-    false
-);
 
 const mouseEventRouter = new MouseEventRouter(camera);
 
@@ -82,6 +186,7 @@ mouseEventRouter.register(document);
 const worldPainter = new WorldPainter(renderingContext, [
     gridLayerPainter,
     polygonLayerPainter,
+    // wallUnitPainter,
 ]);
 
 const ticksPerSecond = 30;

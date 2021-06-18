@@ -2,32 +2,26 @@ import { Dimensions } from './Dimensions';
 import { UnitSize } from './PolygonFactory';
 import { UnitMapping, UnitStyle } from './UnitUtils';
 
-export const WIDGET_MAP: UnitMapping = {
-    [UnitSize.A]: {
+export const UNIT_MAPPING: UnitMapping = {
+    [UnitSize.WallSizeA]: {
         borderColour: '#72757B',
         fillColour: '#E5EBF7',
         dimensions: new Dimensions(600, 720, 400),
         unitID: 3762,
     },
-    [UnitSize.B]: {
+    [UnitSize.WallSizeB]: {
         borderColour: '#72757B',
         fillColour: '#E5EBF7',
         dimensions: new Dimensions(600, 720, 330),
         unitID: 3568,
     },
-    [UnitSize.C]: {
+    [UnitSize.BaseSizeA]: {
         borderColour: '#72757B',
         fillColour: '#FFFEE7',
         dimensions: new Dimensions(600, 720, 620),
         unitID: 10810,
     },
-    [UnitSize.D]: {
-        borderColour: '#72757B',
-        fillColour: '#FFFEE7',
-        dimensions: new Dimensions(650, 720, 450),
-        unitID: 8874,
-    },
-    [UnitSize.E]: {
+    [UnitSize.BaseSizeB]: {
         borderColour: '#72757B',
         fillColour: '#FFFEE7',
         dimensions: new Dimensions(650, 720, 450),
@@ -36,5 +30,5 @@ export const WIDGET_MAP: UnitMapping = {
 };
 
 export function getUnit(unit: UnitSize): UnitStyle {
-    return WIDGET_MAP[unit];
+    return UNIT_MAPPING[unit];
 }

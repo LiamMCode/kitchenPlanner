@@ -3,11 +3,10 @@ import { Point } from './Point';
 import { Polygon } from './Polygon';
 
 export enum UnitSize {
-    A = 'A',
-    B = 'B',
-    C = 'C',
-    D = 'D',
-    E = 'E',
+    WallSizeA = 'WallSizeA',
+    WallSizeB = 'WallSizeB',
+    BaseSizeA = 'BaseSizeA',
+    BaseSizeB = 'BaseSizeB',
 }
 
 export class PolygonFactory {
