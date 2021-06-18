@@ -27,6 +27,12 @@ export const WIDGET_MAP: UnitMapping = {
         dimensions: new Dimensions(650, 720, 450),
         unitID: 8874,
     },
+    [UnitSize.E]: {
+        borderColour: '#72757B',
+        fillColour: '#FFFEE7',
+        dimensions: new Dimensions(650, 720, 450),
+        unitID: 8874,
+    },
 };
 
 export function getUnit(unit: UnitSize): UnitStyle {

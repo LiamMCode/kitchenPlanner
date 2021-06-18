@@ -7,6 +7,7 @@ export enum UnitSize {
     B = 'B',
     C = 'C',
     D = 'D',
+    E = 'E',
 }
 
 export class PolygonFactory {

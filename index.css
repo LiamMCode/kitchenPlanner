@@ -1,3 +1,62 @@
+:root {
+    --mainGreen: #008000;
+    --mainBlack: #000;
+}
+/* nav links */
+.navbar-toggler {
+    outline: none !important;
+}
+.toggler-icon {
+    font-size: 2.5rem;
+    color: var(--mainGreen);
+}
+.nav-link {
+    color: var(--mainGreen);
+    font-size: 1.5rem;
+    transition: all 0.5s ease-in-out;
+}
+.nav-link:hover {
+    color: var(--mainBlack);
+}
+
+/* Dropdown menu code */
+.dropdown-toggle {
+    color: var(--mainGreen);
+    font-size: 1.5rem;
+}
+
+.dropdown {
+    padding: 7px;
+    position: inherit;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    color: var(--mainGreen);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
 html,
 body {
     overflow: hidden;
