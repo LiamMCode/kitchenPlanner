@@ -1,5 +1,5 @@
-import { Point } from './Point';
-import { Vector } from './Vector';
+import { Point } from "./Point";
+import { Vector } from "./Vector";
 
 export class Camera {
     private pan = Vector.zero();

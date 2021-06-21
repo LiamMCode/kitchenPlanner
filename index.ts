@@ -24,10 +24,6 @@ const polygonLayerPainter = new PolygonLayerPainter(
     polygonRepository,
     polygonPainter
 );
-// const wallUnitPainter = new PolygonLayerPainter(
-//     polygonRepository,
-//     polygonPainter
-// );
 
 const polygonFactory = new PolygonFactory();
 
@@ -49,6 +45,10 @@ const navDecorUnitsF = document.getElementById('DecorSizeF');
 
 const navWorktopUnitsA = document.getElementById('WorktopSizeA');
 const navWorktopUnitsB = document.getElementById('WorktopSizeB');
+
+const navNewPlan = document.getElementById('NewPlan');
+const navLoadPlan = document.getElementById('LoadPlan');
+const navSavePlan = document.getElementById('SavePlan');
 
 function drawSelected(element: HTMLElement): void {
     getMapandUnit(element.id as UnitSize);
@@ -165,17 +165,41 @@ navWorktopUnitsB.addEventListener(
     false
 );
 
+navNewPlan.addEventListener(
+    'click',
+    function () {
+        // implement functionality in PGDT-452
+    },
+    false
+);
+
+navSavePlan.addEventListener(
+    'click',
+    function () {
+        // implement functionality in PGDT-454
+    },
+    false
+);
+
+navLoadPlan.addEventListener(
+    'click',
+    function () {
+        // implement functionality in PGDT-456
+    },
+    false
+);
+
 export function getMapandUnit(selectedUnitSize: UnitSize): void {
     polygonLayerPainter.setUnit(selectedUnitSize);
     console.log('clicked ' + selectedUnitSize);
 
-    const { dimensions } = getUnit(selectedUnitSize);
+    const { dimensions, fillColour, borderColour } = getUnit(selectedUnitSize);
     const polygon = polygonFactory
         .createRectangle(dimensions, selectedUnitSize)
-        .transform(Matrix.rotateXZ(45))
+        .transform(Matrix.rotateXZ(0))
         .translate(new Vector(1500, 0, 250));
 
-    polygonRepository.push(polygon);
+    polygonRepository.push(polygon, fillColour, borderColour);
     polygon.getCentre();
 }
 
@@ -186,7 +210,6 @@ mouseEventRouter.register(document);
 const worldPainter = new WorldPainter(renderingContext, [
     gridLayerPainter,
     polygonLayerPainter,
-    // wallUnitPainter,
 ]);
 
 const ticksPerSecond = 30;

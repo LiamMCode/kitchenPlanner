@@ -7,6 +7,16 @@ export enum UnitSize {
     WallSizeB = 'WallSizeB',
     BaseSizeA = 'BaseSizeA',
     BaseSizeB = 'BaseSizeB',
+    TowerSizeA = 'TowerSizeA',
+    TowerSizeB = 'TowerSizeB',
+    DecorSizeA = 'DecorSizeA',
+    DecorSizeB = 'DecorSizeB',
+    DecorSizeC = 'DecorSizeC',
+    DecorSizeD = 'DecorSizeD',
+    DecorSizeE = 'DecorSizeE',
+    DecorSizeF = 'DecorSizeF',
+    WorktopSizeA = 'WorktopSizeA',
+    WorktopSizeB = 'WorktopSizeB',
 }
 
 export class PolygonFactory {

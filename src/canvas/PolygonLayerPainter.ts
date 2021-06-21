@@ -12,9 +12,9 @@ export class PolygonLayerPainter {
 
     public paint(): void {
         const polygons = this.repository.findAll();
-        // for (let i = 0; i < polygons.length; i++) {
-        this.painter.paint(polygons, this.unit);
-        // }
+        const fillColours = this.repository.findFillColours();
+        const borderColour = this.repository.findBorderColours();
+        this.painter.paint(polygons, fillColours, borderColour);
     }
 
     public setUnit(unitSize: UnitSize): void {

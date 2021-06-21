@@ -1,5 +1,5 @@
-import { Point } from './Point';
-import { RenderingContext } from './RenderingContext';
+import { Point } from "./Point";
+import { RenderingContext } from "./RenderingContext";
 
 const MINOR_INTERVAL = 20;
 const MAJOR_INTERVAL = 200;
@@ -8,9 +8,9 @@ export class GridLayerPainter {
     constructor(private context: RenderingContext) {}
 
     public paint(): void {
-        this.context.setStrokeStyle('#EEE');
+        this.context.setStrokeStyle("#EEE");
         this.strokeInterval(MINOR_INTERVAL);
-        this.context.setStrokeStyle('#CCC');
+        this.context.setStrokeStyle("#CCC");
         this.strokeInterval(MAJOR_INTERVAL);
     }
 

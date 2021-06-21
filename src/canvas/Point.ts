@@ -1,5 +1,5 @@
-import { FuzzyMath } from './FuzzyMath';
-import { Vector } from './Vector';
+import { FuzzyMath } from "./FuzzyMath";
+import { Vector } from "./Vector";
 
 export class Point {
     constructor(
