@@ -1,6 +1,6 @@
-import { Camera } from "./Camera";
-import { AxisAlignedBoundingBox } from "./AxisAlignedBoundingBox";
-import { Point } from "./Point";
+import { Camera } from './Camera';
+import { AxisAlignedBoundingBox } from './AxisAlignedBoundingBox';
+import { Point } from './Point';
 
 export class RenderingContext {
     constructor(

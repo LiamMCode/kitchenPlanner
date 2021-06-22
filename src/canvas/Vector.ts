@@ -1,4 +1,4 @@
-import { Point } from "./Point";
+import { Point } from './Point';
 
 export class Vector {
     constructor(
@@ -53,7 +53,7 @@ export class Vector {
 
     public divide(divisor: number): Vector {
         if (divisor === 0) {
-            throw new Error("Cannot divide vector by zero");
+            throw new Error('Cannot divide vector by zero');
         }
 
         return new Vector(this.x / divisor, this.y / divisor, this.z / divisor);

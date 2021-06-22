@@ -1,5 +1,5 @@
-import { Dimensions } from "./Dimensions";
-import { UnitSize } from "./PolygonFactory";
+import { Dimensions } from './Dimensions';
+import { UnitSize } from './PolygonFactory';
 
 export interface UnitStyle {
     borderColour: string;

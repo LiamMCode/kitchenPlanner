@@ -1,6 +1,6 @@
-import { Matrix } from "./Matrix";
-import { Point } from "./Point";
-import { Vector } from "./Vector";
+import { Matrix } from './Matrix';
+import { Point } from './Point';
+import { Vector } from './Vector';
 
 export class Polygon {
     constructor(private points: Point[]) {}

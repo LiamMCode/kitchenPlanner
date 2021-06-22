@@ -1,19 +1,19 @@
-import { Camera } from "./Camera";
-import { Point } from "./Point";
+import { Camera } from './Camera';
+import { Point } from './Point';
 
 export class MouseEventRouter {
     constructor(private camera: Camera) {}
 
     public register(target: EventTarget): void {
-        target.addEventListener("mousedown", (event: MouseEvent) => {
+        target.addEventListener('mousedown', (event: MouseEvent) => {
             this.onMouseDown(this.camera.findMouseEvent(event));
         });
 
-        target.addEventListener("mousemove", (event: MouseEvent) => {
+        target.addEventListener('mousemove', (event: MouseEvent) => {
             this.onMouseMove(this.camera.findMouseEvent(event));
         });
 
-        target.addEventListener("mouseup", (event: MouseEvent) => {
+        target.addEventListener('mouseup', (event: MouseEvent) => {
             this.onMouseUp(this.camera.findMouseEvent(event));
         });
     }

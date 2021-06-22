@@ -1,4 +1,4 @@
-import { Point } from "./Point";
+import { Point } from './Point';
 
 export class AxisAlignedBoundingBox {
     constructor(private min: Point, private max: Point) {}

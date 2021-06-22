@@ -78,13 +78,13 @@ export const UNIT_MAPPING: UnitMapping = {
     [UnitSize.WorktopSizeA]: {
         borderColour: '#E8A81A',
         fillColour: '#F0F0F0',
-        dimensions: new Dimensions(40, 3000, 600),
+        dimensions: new Dimensions(3000, 40, 600),
         unitID: 1200,
     },
     [UnitSize.WorktopSizeB]: {
         borderColour: '#44B84A',
         fillColour: '#F0F0F0',
-        dimensions: new Dimensions(40, 3000, 600),
+        dimensions: new Dimensions(3000, 40, 600),
         unitID: 1201,
     },
 };
