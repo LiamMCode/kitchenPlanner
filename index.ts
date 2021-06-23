@@ -12,7 +12,7 @@ import { WorldPainter } from './src/canvas/WorldPainter';
 import { getUnit } from './src/canvas/UnitsMap';
 
 const canvas = document.createElement('canvas');
-
+let isMoving: boolean = false;
 const camera = new Camera();
 
 const renderingContext = new RenderingContext(canvas.getContext('2d'), camera);
@@ -205,57 +205,71 @@ export function getMapandUnit(selectedUnitSize: UnitSize): void {
     polygon.getCentre();
 }
 
+canvas.addEventListener('mousedown', function (e) {
+    isMoving = true;
+});
+
 canvas.addEventListener('mousemove', function (e) {
-    //gets mouse position NOTE: y in mousePOSITION is z for polygonPOSITION
-    const mousePOSITION = getmousePOSITION(canvas, e);
+    if (isMoving === true) {
+        //gets mouse position NOTE: y in mousePOSITION is z for polygonPOSITION
+        let mousePOSITION = getmousePOSITION(canvas, e);
 
-    // if mouse position is within any polygon position
-    const polygonsCreated = polygonRepository.findAll();
-    for (let i = 0; i < polygonsCreated.length; i++) {
-        const polygonPOSITION = polygonsCreated[i].getPoints();
-        const x1 = polygonPOSITION[0].getX();
-        const z1 = polygonPOSITION[0].getZ();
+        // if mouse position is within any polygon position
+        const polygonsCreated = polygonRepository.findAll();
+        for (let i = 0; i < polygonsCreated.length; i++) {
+            const polygonPOSITION = polygonsCreated[i].getPoints();
+            const x1 = polygonPOSITION[0].getX();
+            const z1 = polygonPOSITION[0].getZ();
+            const x2 = polygonPOSITION[1].getX();
+            const z2 = polygonPOSITION[2].getZ();
 
-        const x2 = polygonPOSITION[1].getX();
-        const z2 = polygonPOSITION[2].getZ();
+            if (
+                mousePOSITION.x >= x1 &&
+                mousePOSITION.x <= x2 &&
+                mousePOSITION.y <= z1 &&
+                mousePOSITION.y >= z2
+            ) {
+                const polygonUnit = polygonRepository.findUnitsCreated()[i];
 
-        if (
-            mousePOSITION.x >= x1 &&
-            mousePOSITION.x <= x2 &&
-            mousePOSITION.y <= z1 &&
-            mousePOSITION.y >= z2
-        ) {
-            const polygonUnit = polygonRepository.findUnitsCreated()[i];
+                deleteUnit.addEventListener('click', function () {
+                    // remove unit from polygon repo + fill & border colour repos
+                    // if not clicked inside polygon use an alert to ask use to select a polygon
+                    // NOTE keyboard shortcuts such as DELETE and fn backspace should also work - PGDT-440
+                    console.log('delete');
+                });
 
-            deleteUnit.addEventListener('click', function () {
-                // remove unit from polygon repo + fill & border colour repos
-                // if not clicked inside polygon use an alert to ask use to select a polygon
-                // NOTE keyboard shortcuts such as DELETE and fn backspace should also work - PGDT-440
-                console.log('delete');
-            });
+                // recreate the polygon in its new location
+                const { fillColour, borderColour, dimensions } =
+                    getUnit(polygonUnit);
 
-            // Translate the polygon to mouseX and mouseY as its x and z
-            const { fillColour, borderColour, dimensions } =
-                getUnit(polygonUnit);
+                const polygonMoved = polygonFactory
+                    .createRectangle(dimensions, polygonUnit)
+                    .transform(Matrix.rotateXZ(0))
+                    .translate(
+                        new Vector(
+                            mousePOSITION.x -
+                                dimensions.getWidth(dimensions) / 2,
+                            dimensions.getHeight(dimensions),
+                            mousePOSITION.y -
+                                dimensions.getDepth(dimensions) / 2
+                        )
+                    );
 
-            const centre = polygonsCreated[i].getCentre();
-            //reCreate the polygon and paint it on the canvas, deleting the old position of the polygon
-            const polygonMoved = polygonFactory
-                .createRectangle(dimensions, polygonUnit)
-                .transform(Matrix.rotateXZ(0))
-                .translate(
-                    new Vector(mousePOSITION.x, centre.getY(), mousePOSITION.y)
+                polygonRepository.push(
+                    polygonMoved,
+                    fillColour,
+                    borderColour,
+                    polygonUnit
                 );
 
-            polygonRepository.push(
-                polygonMoved,
-                fillColour,
-                borderColour,
-                polygonUnit
-            );
-            polygonRepository.deletePolygon(polygonsCreated[i]);
+                polygonRepository.deletePolygon(polygonsCreated[i]);
+            }
         }
     }
+});
+
+canvas.addEventListener('mouseup', function (e) {
+    isMoving = false;
 });
 
 function getmousePOSITION(canvas: HTMLCanvasElement, event: MouseEvent) {
@@ -275,7 +289,7 @@ const worldPainter = new WorldPainter(renderingContext, [
     polygonLayerPainter,
 ]);
 
-const ticksPerSecond = 30;
+const ticksPerSecond = 10;
 const msPerTick = 1000 / ticksPerSecond;
 
 document.body.appendChild(canvas);
