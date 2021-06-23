@@ -1,8 +1,8 @@
-import { PolygonPainter } from './PolygonPainter';
-import { PolygonRepository } from './PolygonRepository';
+import PolygonPainter from './PolygonPainter';
+import PolygonRepository from './PolygonRepository';
 import { UnitSize } from './PolygonFactory';
 
-export class PolygonLayerPainter {
+export default class PolygonLayerPainter {
     private unit: UnitSize;
 
     constructor(

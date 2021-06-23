@@ -1,8 +1,8 @@
-import { Camera } from './Camera';
-import { AxisAlignedBoundingBox } from './AxisAlignedBoundingBox';
-import { Point } from './Point';
+import Camera from './Camera';
+import AxisAlignedBoundingBox from './AxisAlignedBoundingBox';
+import Point from './Point';
 
-export class RenderingContext {
+export default class RenderingContext {
     constructor(
         private context: CanvasRenderingContext2D,
         private camera: Camera
@@ -62,14 +62,14 @@ export class RenderingContext {
     }
 
     public lineTo(point: Point): void {
-        point = this.camera.apply(point);
+        const lineToPoint = this.camera.apply(point);
 
-        this.context.lineTo(point.getX(), point.getZ());
+        this.context.lineTo(lineToPoint.getX(), lineToPoint.getZ());
     }
 
     public moveTo(point: Point): void {
-        point = this.camera.apply(point);
+        const moveToPoint = this.camera.apply(point);
 
-        this.context.moveTo(point.getX(), point.getZ());
+        this.context.moveTo(moveToPoint.getX(), moveToPoint.getZ());
     }
 }

@@ -1,7 +1,7 @@
-import { FuzzyMath } from './FuzzyMath';
-import { Vector } from './Vector';
+import FuzzyMath from './FuzzyMath';
+import Vector from './Vector';
 
-export class Point {
+export default class Point {
     constructor(
         private readonly x: number,
         private readonly y: number,

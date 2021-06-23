@@ -1,7 +1,7 @@
-import { Polygon } from './Polygon';
-import { RenderingContext } from './RenderingContext';
+import Polygon from './Polygon';
+import RenderingContext from './RenderingContext';
 
-export class PolygonPainter {
+export default class PolygonPainter {
     constructor(private context: RenderingContext) {}
 
     public paint(

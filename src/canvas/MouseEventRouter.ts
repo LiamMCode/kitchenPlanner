@@ -1,7 +1,7 @@
-import { Camera } from './Camera';
-import { Point } from './Point';
+import Camera from './Camera';
+import Point from './Point';
 
-export class MouseEventRouter {
+export default class MouseEventRouter {
     constructor(private camera: Camera) {}
 
     public register(target: EventTarget): void {

@@ -1,10 +1,13 @@
-import { Polygon } from './Polygon';
+import Polygon from './Polygon';
 import { UnitSize } from './PolygonFactory';
 
-export class PolygonRepository {
+export default class PolygonRepository {
     private polygons: Polygon[] = [];
+
     private polygonFillColours: string[] = [];
+
     private polygonBorderColours: string[] = [];
+
     private unitsCreated: UnitSize[] = [];
 
     public findAll(): Polygon[] {
@@ -18,6 +21,7 @@ export class PolygonRepository {
     public findBorderColours(): string[] {
         return this.polygonBorderColours;
     }
+
     public findUnitsCreated(): UnitSize[] {
         return this.unitsCreated;
     }
@@ -34,7 +38,7 @@ export class PolygonRepository {
         this.unitsCreated.push(unit);
     }
 
-    public deletePolygon(polygonMoved: Polygon) {
+    public deletePolygon(polygonMoved: Polygon): void {
         const movedIndex = this.polygons.indexOf(polygonMoved);
         this.polygons.splice(movedIndex, 1);
         this.polygonFillColours.splice(movedIndex, 1);

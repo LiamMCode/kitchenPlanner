@@ -1,8 +1,8 @@
-import { Matrix } from './Matrix';
-import { Point } from './Point';
-import { Vector } from './Vector';
+import Matrix from './Matrix';
+import Point from './Point';
+import Vector from './Vector';
 
-export class Polygon {
+export default class Polygon {
     constructor(private points: Point[]) {}
 
     public translate(vector: Vector): Polygon {

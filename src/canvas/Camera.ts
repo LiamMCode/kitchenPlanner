@@ -1,7 +1,7 @@
-import { Point } from './Point';
-import { Vector } from './Vector';
+import Point from './Point';
+import Vector from './Vector';
 
-export class Camera {
+export default class Camera {
     private pan = Vector.zero();
 
     private zoom = 1;

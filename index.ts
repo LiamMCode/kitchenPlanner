@@ -1,18 +1,18 @@
-import { Camera } from './src/canvas/Camera';
-import { GridLayerPainter } from './src/canvas/GridLayerPainter';
-import { Matrix } from './src/canvas/Matrix';
-import { MouseEventRouter } from './src/canvas/MouseEventRouter';
+import Camera from './src/canvas/Camera';
+import GridLayerPainter from './src/canvas/GridLayerPainter';
+import Matrix from './src/canvas/Matrix';
+import MouseEventRouter from './src/canvas/MouseEventRouter';
 import { PolygonFactory, UnitSize } from './src/canvas/PolygonFactory';
-import { PolygonLayerPainter } from './src/canvas/PolygonLayerPainter';
-import { PolygonPainter } from './src/canvas/PolygonPainter';
-import { PolygonRepository } from './src/canvas/PolygonRepository';
-import { RenderingContext } from './src/canvas/RenderingContext';
-import { Vector } from './src/canvas/Vector';
-import { WorldPainter } from './src/canvas/WorldPainter';
+import PolygonLayerPainter from './src/canvas/PolygonLayerPainter';
+import PolygonPainter from './src/canvas/PolygonPainter';
+import PolygonRepository from './src/canvas/PolygonRepository';
+import RenderingContext from './src/canvas/RenderingContext';
+import Vector from './src/canvas/Vector';
+import WorldPainter from './src/canvas/WorldPainter';
 import { getUnit } from './src/canvas/UnitsMap';
 
 const canvas = document.createElement('canvas');
-let isMoving: boolean = false;
+let isMoving = false;
 const camera = new Camera();
 
 const renderingContext = new RenderingContext(canvas.getContext('2d'), camera);
@@ -51,6 +51,19 @@ const navLoadPlan = document.getElementById('LoadPlan');
 const navSavePlan = document.getElementById('SavePlan');
 
 const deleteUnit = document.getElementById('deleteUnit');
+
+export default function getMapandUnit(selectedUnitSize: UnitSize): void {
+    polygonLayerPainter.setUnit(selectedUnitSize);
+
+    const { dimensions, fillColour, borderColour } = getUnit(selectedUnitSize);
+    const polygon = polygonFactory
+        .createRectangle(dimensions, selectedUnitSize)
+        .transform(Matrix.rotateXZ(0))
+        .translate(new Vector(1500, 0, 250));
+
+    polygonRepository.push(polygon, fillColour, borderColour, selectedUnitSize);
+    polygon.getCentre();
+}
 
 function drawSelected(element: HTMLElement): void {
     getMapandUnit(element.id as UnitSize);
@@ -169,7 +182,7 @@ navWorktopUnitsB.addEventListener(
 
 navNewPlan.addEventListener(
     'click',
-    function () {
+    () => {
         // implement functionality in PGDT-452
     },
     false
@@ -177,7 +190,7 @@ navNewPlan.addEventListener(
 
 navSavePlan.addEventListener(
     'click',
-    function () {
+    () => {
         // implement functionality in PGDT-454
     },
     false
@@ -185,34 +198,28 @@ navSavePlan.addEventListener(
 
 navLoadPlan.addEventListener(
     'click',
-    function () {
+    () => {
         // implement functionality in PGDT-456
     },
     false
 );
 
-export function getMapandUnit(selectedUnitSize: UnitSize): void {
-    polygonLayerPainter.setUnit(selectedUnitSize);
-    console.log('clicked ' + selectedUnitSize);
-
-    const { dimensions, fillColour, borderColour } = getUnit(selectedUnitSize);
-    const polygon = polygonFactory
-        .createRectangle(dimensions, selectedUnitSize)
-        .transform(Matrix.rotateXZ(0))
-        .translate(new Vector(1500, 0, 250));
-
-    polygonRepository.push(polygon, fillColour, borderColour, selectedUnitSize);
-    polygon.getCentre();
+function getmousePOSITION(canvasReDraw: HTMLCanvasElement, event: MouseEvent) {
+    const rect = canvasReDraw.getBoundingClientRect();
+    return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
+    };
 }
 
-canvas.addEventListener('mousedown', function (e) {
+canvas.addEventListener('mousedown', () => {
     isMoving = true;
 });
 
-canvas.addEventListener('mousemove', function (e) {
+canvas.addEventListener('mousemove', (e) => {
     if (isMoving === true) {
-        //gets mouse position NOTE: y in mousePOSITION is z for polygonPOSITION
-        let mousePOSITION = getmousePOSITION(canvas, e);
+        // gets mouse position NOTE: y in mousePOSITION is z for polygonPOSITION
+        const mousePOSITION = getmousePOSITION(canvas, e);
 
         // if mouse position is within any polygon position
         const polygonsCreated = polygonRepository.findAll();
@@ -231,11 +238,11 @@ canvas.addEventListener('mousemove', function (e) {
             ) {
                 const polygonUnit = polygonRepository.findUnitsCreated()[i];
 
-                deleteUnit.addEventListener('click', function () {
+                deleteUnit.addEventListener('click', () => {
                     // remove unit from polygon repo + fill & border colour repos
                     // if not clicked inside polygon use an alert to ask use to select a polygon
-                    // NOTE keyboard shortcuts such as DELETE and fn backspace should also work - PGDT-440
-                    console.log('delete');
+                    // NOTE keyboard shortcuts such as DELETE and fn backspace should also work
+                    // - PGDT-440
                 });
 
                 // recreate the polygon in its new location
@@ -268,17 +275,9 @@ canvas.addEventListener('mousemove', function (e) {
     }
 });
 
-canvas.addEventListener('mouseup', function (e) {
+canvas.addEventListener('mouseup', () => {
     isMoving = false;
 });
-
-function getmousePOSITION(canvas: HTMLCanvasElement, event: MouseEvent) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top,
-    };
-}
 
 const mouseEventRouter = new MouseEventRouter(camera);
 

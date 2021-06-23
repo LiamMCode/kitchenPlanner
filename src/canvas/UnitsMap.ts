@@ -1,4 +1,4 @@
-import { Dimensions } from './Dimensions';
+import Dimensions from './Dimensions';
 import { UnitSize } from './PolygonFactory';
 import { UnitMapping, UnitStyle } from './UnitUtils';
 
@@ -30,49 +30,49 @@ export const UNIT_MAPPING: UnitMapping = {
     [UnitSize.TowerSizeA]: {
         borderColour: '#72757B',
         fillColour: '#FCE5F1',
-        dimensions: new Dimensions(1920, 620, 620),
+        dimensions: new Dimensions(500, 1920, 620),
         unitID: 11000,
     },
     [UnitSize.TowerSizeB]: {
         borderColour: '#72757B',
         fillColour: '#FCE5F1',
-        dimensions: new Dimensions(1920, 500, 450),
+        dimensions: new Dimensions(500, 1920, 450),
         unitID: 4240,
     },
     [UnitSize.DecorSizeA]: {
         borderColour: '#72757B',
         fillColour: '#121214',
-        dimensions: new Dimensions(870, 20, 620),
+        dimensions: new Dimensions(20, 870, 620),
         unitID: 14000,
     },
     [UnitSize.DecorSizeB]: {
         borderColour: '#72757B',
         fillColour: '#121214',
-        dimensions: new Dimensions(870, 20, 450),
+        dimensions: new Dimensions(20, 870, 450),
         unitID: 14001,
     },
     [UnitSize.DecorSizeC]: {
         borderColour: '#72757B',
         fillColour: '#121214',
-        dimensions: new Dimensions(720, 20, 400),
+        dimensions: new Dimensions(20, 720, 400),
         unitID: 14002,
     },
     [UnitSize.DecorSizeD]: {
         borderColour: '#72757B',
         fillColour: '#121214',
-        dimensions: new Dimensions(720, 20, 330),
+        dimensions: new Dimensions(20, 720, 330),
         unitID: 14003,
     },
     [UnitSize.DecorSizeE]: {
         borderColour: '#72757B',
         fillColour: '#121214',
-        dimensions: new Dimensions(2070, 20, 450),
+        dimensions: new Dimensions(20, 2070, 450),
         unitID: 14004,
     },
     [UnitSize.DecorSizeF]: {
         borderColour: '#72757B',
         fillColour: '#121214',
-        dimensions: new Dimensions(2070, 20, 450),
+        dimensions: new Dimensions(20, 2070, 450),
         unitID: 14005,
     },
     [UnitSize.WorktopSizeA]: {

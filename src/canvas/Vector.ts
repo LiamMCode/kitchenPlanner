@@ -1,6 +1,6 @@
-import { Point } from './Point';
+import Point from './Point';
 
-export class Vector {
+export default class Vector {
     constructor(
         private readonly x: number,
         private readonly y: number,

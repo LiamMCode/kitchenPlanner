@@ -1,4 +1,4 @@
-import { Dimensions } from './Dimensions';
+import Dimensions from './Dimensions';
 import { UnitSize } from './PolygonFactory';
 
 export interface UnitStyle {

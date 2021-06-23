@@ -1,6 +1,6 @@
-import { Dimensions } from './Dimensions';
-import { Point } from './Point';
-import { Polygon } from './Polygon';
+import Dimensions from './Dimensions';
+import Point from './Point';
+import Polygon from './Polygon';
 
 export enum UnitSize {
     WallSizeA = 'WallSizeA',

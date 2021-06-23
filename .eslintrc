@@ -31,19 +31,17 @@
     "rules": {
         "import/extensions": "off",
         "no-unused-vars": "off",
-        "import/prefer-default-export": "off",
         "no-empty-function": "off",
         "no-useless-constructor": "off",
         "no-plusplus": "off",
-        "no-console": "off",
+        "no-console": 1,
         "no-shadow": "off",
-        "no-param-reassign": "off",
         "class-methods-use-this": "off",
         "no-restricted-syntax": "off",
-        "guard-for-in": "off",
-        "import/no-unresolved": "off",
-        "indent": "off",
+        "import/no-unresolved": 1,
+        "func-names": "off",
+        "indent": "off", //prettier is handling this
         "comma-dangle": "off",
-        "operator-linebreak": "off"
+        "operator-linebreak": "off" // prettier causing these
     }
 }

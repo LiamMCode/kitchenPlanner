@@ -1,4 +1,4 @@
-export class Dimensions {
+export default class Dimensions {
     constructor(
         private width: number,
         private height: number,
