@@ -29,6 +29,6 @@ export class PolygonFactory {
         const bottomRight = new Point(width, 0, 0);
         const bottomLeft = new Point(0, 0, 0);
 
-        return new Polygon([topLeft, topRight, bottomRight, bottomLeft]);
+        return new Polygon(dimensions, [topLeft, topRight, bottomRight, bottomLeft]);
     }
 }

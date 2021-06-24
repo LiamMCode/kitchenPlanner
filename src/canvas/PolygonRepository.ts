@@ -45,4 +45,8 @@ export class PolygonRepository {
         this.polygonBorderColours.splice(movedIndex, 1);
         this.unitsCreated.splice(movedIndex, 1);
     }
+
+    public getSelectedPolygon(): Polygon {
+        return this.polygons.find((polygon) => polygon.isSelected());
+    }
 }

@@ -198,8 +198,8 @@ navLoadPlan.addEventListener(
     false,
 );
 
-const mouseEventRouter = new MouseEventRouter(camera);
-mouseEventRouter.register(document, polygonRepository, polygonFactory);
+const mouseEventRouter = new MouseEventRouter(camera, polygonRepository);
+mouseEventRouter.register(document);
 
 const worldPainter = new WorldPainter(renderingContext, [gridLayerPainter, polygonLayerPainter]);
 
