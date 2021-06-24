@@ -1,9 +1,5 @@
-export default class Dimensions {
-    constructor(
-        private width: number,
-        private height: number,
-        private depth: number
-    ) {}
+export class Dimensions {
+    constructor(private width: number, private height: number, private depth: number) {}
 
     public getWidth(unitDimensions: Dimensions): number {
         this.width = unitDimensions.width;

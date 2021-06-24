@@ -1,10 +1,10 @@
-import Point from './Point';
+import { Point } from './Point';
 
-export default class Vector {
+export class Vector {
     constructor(
         private readonly x: number,
         private readonly y: number,
-        private readonly z: number
+        private readonly z: number,
     ) {}
 
     public static zero(): Vector {
@@ -12,27 +12,15 @@ export default class Vector {
     }
 
     public add(vector: Vector): Vector {
-        return new Vector(
-            this.x + vector.x,
-            this.y + vector.y,
-            this.z + vector.z
-        );
+        return new Vector(this.x + vector.x, this.y + vector.y, this.z + vector.z);
     }
 
     public subtract(vector: Vector): Vector {
-        return new Vector(
-            this.x - vector.x,
-            this.y - vector.y,
-            this.z - vector.z
-        );
+        return new Vector(this.x - vector.x, this.y - vector.y, this.z - vector.z);
     }
 
     public hadamard(vector: Vector): Vector {
-        return new Vector(
-            this.x * vector.x,
-            this.y * vector.y,
-            this.z * vector.z
-        );
+        return new Vector(this.x * vector.x, this.y * vector.y, this.z * vector.z);
     }
 
     public rightPerpendicularXZ(): Vector {
@@ -83,16 +71,12 @@ export default class Vector {
         return new Vector(
             this.y * vector.z - this.z * vector.y,
             this.z * vector.x - this.x * vector.z,
-            this.x * vector.y - this.y * vector.x
+            this.x * vector.y - this.y * vector.x,
         );
     }
 
     public movePoint(point: Point): Point {
-        return new Point(
-            this.x + point.getX(),
-            this.y + point.getY(),
-            this.z + point.getZ()
-        );
+        return new Point(this.x + point.getX(), this.y + point.getY(), this.z + point.getZ());
     }
 
     public toPoint(): Point {

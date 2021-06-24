@@ -30,7 +30,7 @@
     "ignorePatterns": ["dist/**", "test/**"],
     "rules": {
         "import/extensions": "off",
-        "no-unused-vars": "off",
+        "no-unused-vars": 1,
         "no-empty-function": "off",
         "no-useless-constructor": "off",
         "no-plusplus": "off",
@@ -40,8 +40,8 @@
         "no-restricted-syntax": "off",
         "import/no-unresolved": 1,
         "func-names": "off",
+        "import/prefer-default-export": "off",
         "indent": "off", //prettier is handling this
-        "comma-dangle": "off",
-        "operator-linebreak": "off" // prettier causing these
+        "comma-dangle": "off"
     }
 }

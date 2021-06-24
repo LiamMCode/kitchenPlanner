@@ -1,7 +1,7 @@
-import Polygon from './Polygon';
+import { Polygon } from './Polygon';
 import { UnitSize } from './PolygonFactory';
 
-export default class PolygonRepository {
+export class PolygonRepository {
     private polygons: Polygon[] = [];
 
     private polygonFillColours: string[] = [];
@@ -26,12 +26,12 @@ export default class PolygonRepository {
         return this.unitsCreated;
     }
 
-    public push(
-        polygon: Polygon,
-        fillColour: string,
-        borderColour: string,
-        unit: UnitSize
-    ): void {
+    public findUnitByPolygon(polygon: Polygon): UnitSize {
+        const a = this.polygons.indexOf(polygon);
+        return this.unitsCreated[a];
+    }
+
+    public push(polygon: Polygon, fillColour: string, borderColour: string, unit: UnitSize): void {
         this.polygons.push(polygon);
         this.polygonFillColours.push(fillColour);
         this.polygonBorderColours.push(borderColour);

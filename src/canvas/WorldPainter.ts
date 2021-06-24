@@ -1,11 +1,8 @@
 import { LayerPainter } from './LayerPainter'; // reason for this linting rule "import/no-unresolved": "off"
-import RenderingContext from './RenderingContext';
+import { RenderingContext } from './RenderingContext';
 
-export default class WorldPainter {
-    constructor(
-        private context: RenderingContext,
-        private layerPainters: LayerPainter[]
-    ) {}
+export class WorldPainter {
+    constructor(private context: RenderingContext, private layerPainters: LayerPainter[]) {}
 
     public paint(): void {
         this.context.clear();

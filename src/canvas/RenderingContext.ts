@@ -1,12 +1,9 @@
-import Camera from './Camera';
-import AxisAlignedBoundingBox from './AxisAlignedBoundingBox';
-import Point from './Point';
+import { Camera } from './Camera';
+import { AxisAlignedBoundingBox } from './AxisAlignedBoundingBox';
+import { Point } from './Point';
 
-export default class RenderingContext {
-    constructor(
-        private context: CanvasRenderingContext2D,
-        private camera: Camera
-    ) {}
+export class RenderingContext {
+    constructor(private context: CanvasRenderingContext2D, private camera: Camera) {}
 
     public clear(): void {
         const { canvas } = this.context;
@@ -18,9 +15,7 @@ export default class RenderingContext {
         const { canvas } = this.context;
 
         const topLeft = this.camera.invert(new Point(0, 0, 0));
-        const bottomRight = this.camera.invert(
-            new Point(canvas.width, 0, canvas.height)
-        );
+        const bottomRight = this.camera.invert(new Point(canvas.width, 0, canvas.height));
 
         return new AxisAlignedBoundingBox(topLeft, bottomRight);
     }

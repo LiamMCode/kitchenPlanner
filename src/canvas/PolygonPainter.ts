@@ -1,13 +1,13 @@
-import Polygon from './Polygon';
-import RenderingContext from './RenderingContext';
+import { Polygon } from './Polygon';
+import { RenderingContext } from './RenderingContext';
 
-export default class PolygonPainter {
+export class PolygonPainter {
     constructor(private context: RenderingContext) {}
 
     public paint(
         polygon: Polygon[],
         polygonFillColours: string[],
-        polygonBorderColours: string[]
+        polygonBorderColours: string[],
     ): void {
         for (let i = 0; i < polygon.length; i++) {
             this.context.setFillStyle(polygonFillColours[i]);

@@ -1,6 +1,6 @@
-import Point from './Point';
+import { Point } from './Point';
 
-export default class AxisAlignedBoundingBox {
+export class AxisAlignedBoundingBox {
     constructor(private min: Point, private max: Point) {}
 
     public getLeft(): number {

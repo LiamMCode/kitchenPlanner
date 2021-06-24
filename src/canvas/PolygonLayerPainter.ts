@@ -1,14 +1,11 @@
-import PolygonPainter from './PolygonPainter';
-import PolygonRepository from './PolygonRepository';
+import { PolygonPainter } from './PolygonPainter';
+import { PolygonRepository } from './PolygonRepository';
 import { UnitSize } from './PolygonFactory';
 
-export default class PolygonLayerPainter {
+export class PolygonLayerPainter {
     private unit: UnitSize;
 
-    constructor(
-        private repository: PolygonRepository,
-        private painter: PolygonPainter
-    ) {}
+    constructor(private repository: PolygonRepository, private painter: PolygonPainter) {}
 
     public paint(): void {
         const polygons = this.repository.findAll();

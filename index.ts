@@ -1,18 +1,17 @@
-import Camera from './src/canvas/Camera';
-import GridLayerPainter from './src/canvas/GridLayerPainter';
-import Matrix from './src/canvas/Matrix';
-import MouseEventRouter from './src/canvas/MouseEventRouter';
+import { Camera } from './src/canvas/Camera';
+import { GridLayerPainter } from './src/canvas/GridLayerPainter';
+import { Matrix } from './src/canvas/Matrix';
+import { MouseEventRouter } from './src/canvas/MouseEventRouter';
 import { PolygonFactory, UnitSize } from './src/canvas/PolygonFactory';
-import PolygonLayerPainter from './src/canvas/PolygonLayerPainter';
-import PolygonPainter from './src/canvas/PolygonPainter';
-import PolygonRepository from './src/canvas/PolygonRepository';
-import RenderingContext from './src/canvas/RenderingContext';
-import Vector from './src/canvas/Vector';
-import WorldPainter from './src/canvas/WorldPainter';
+import { PolygonLayerPainter } from './src/canvas/PolygonLayerPainter';
+import { PolygonPainter } from './src/canvas/PolygonPainter';
+import { PolygonRepository } from './src/canvas/PolygonRepository';
+import { RenderingContext } from './src/canvas/RenderingContext';
+import { Vector } from './src/canvas/Vector';
+import { WorldPainter } from './src/canvas/WorldPainter';
 import { getUnit } from './src/canvas/UnitsMap';
 
-const canvas = document.createElement('canvas');
-let isMoving = false;
+export const canvas = document.createElement('canvas');
 const camera = new Camera();
 
 const renderingContext = new RenderingContext(canvas.getContext('2d'), camera);
@@ -20,10 +19,7 @@ const gridLayerPainter = new GridLayerPainter(renderingContext);
 const polygonPainter = new PolygonPainter(renderingContext);
 const polygonRepository = new PolygonRepository();
 
-const polygonLayerPainter = new PolygonLayerPainter(
-    polygonRepository,
-    polygonPainter
-);
+const polygonLayerPainter = new PolygonLayerPainter(polygonRepository, polygonPainter);
 
 const polygonFactory = new PolygonFactory();
 
@@ -50,9 +46,7 @@ const navNewPlan = document.getElementById('NewPlan');
 const navLoadPlan = document.getElementById('LoadPlan');
 const navSavePlan = document.getElementById('SavePlan');
 
-const deleteUnit = document.getElementById('deleteUnit');
-
-export default function getMapandUnit(selectedUnitSize: UnitSize): void {
+export function getMapandUnit(selectedUnitSize: UnitSize): void {
     polygonLayerPainter.setUnit(selectedUnitSize);
 
     const { dimensions, fillColour, borderColour } = getUnit(selectedUnitSize);
@@ -74,7 +68,7 @@ navWallUnitsA.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navWallUnitsB.addEventListener(
@@ -82,7 +76,7 @@ navWallUnitsB.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navBaseUnitsA.addEventListener(
@@ -90,7 +84,7 @@ navBaseUnitsA.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navBaseUnitsB.addEventListener(
@@ -98,7 +92,7 @@ navBaseUnitsB.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navTowerUnitsA.addEventListener(
@@ -106,7 +100,7 @@ navTowerUnitsA.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navTowerUnitsB.addEventListener(
@@ -114,7 +108,7 @@ navTowerUnitsB.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navDecorUnitsA.addEventListener(
@@ -122,7 +116,7 @@ navDecorUnitsA.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navDecorUnitsB.addEventListener(
@@ -130,7 +124,7 @@ navDecorUnitsB.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navDecorUnitsC.addEventListener(
@@ -138,7 +132,7 @@ navDecorUnitsC.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navDecorUnitsD.addEventListener(
@@ -146,7 +140,7 @@ navDecorUnitsD.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navDecorUnitsE.addEventListener(
@@ -154,14 +148,14 @@ navDecorUnitsE.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 navDecorUnitsF.addEventListener(
     'click',
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navWorktopUnitsA.addEventListener(
@@ -169,7 +163,7 @@ navWorktopUnitsA.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navWorktopUnitsB.addEventListener(
@@ -177,7 +171,7 @@ navWorktopUnitsB.addEventListener(
     function () {
         drawSelected(this);
     },
-    false
+    false,
 );
 
 navNewPlan.addEventListener(
@@ -185,7 +179,7 @@ navNewPlan.addEventListener(
     () => {
         // implement functionality in PGDT-452
     },
-    false
+    false,
 );
 
 navSavePlan.addEventListener(
@@ -193,7 +187,7 @@ navSavePlan.addEventListener(
     () => {
         // implement functionality in PGDT-454
     },
-    false
+    false,
 );
 
 navLoadPlan.addEventListener(
@@ -201,92 +195,13 @@ navLoadPlan.addEventListener(
     () => {
         // implement functionality in PGDT-456
     },
-    false
+    false,
 );
 
-function getmousePOSITION(canvasReDraw: HTMLCanvasElement, event: MouseEvent) {
-    const rect = canvasReDraw.getBoundingClientRect();
-    return {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top,
-    };
-}
-
-canvas.addEventListener('mousedown', () => {
-    isMoving = true;
-});
-
-canvas.addEventListener('mousemove', (e) => {
-    if (isMoving === true) {
-        // gets mouse position NOTE: y in mousePOSITION is z for polygonPOSITION
-        const mousePOSITION = getmousePOSITION(canvas, e);
-
-        // if mouse position is within any polygon position
-        const polygonsCreated = polygonRepository.findAll();
-        for (let i = 0; i < polygonsCreated.length; i++) {
-            const polygonPOSITION = polygonsCreated[i].getPoints();
-            const x1 = polygonPOSITION[0].getX();
-            const z1 = polygonPOSITION[0].getZ();
-            const x2 = polygonPOSITION[1].getX();
-            const z2 = polygonPOSITION[2].getZ();
-
-            if (
-                mousePOSITION.x >= x1 &&
-                mousePOSITION.x <= x2 &&
-                mousePOSITION.y <= z1 &&
-                mousePOSITION.y >= z2
-            ) {
-                const polygonUnit = polygonRepository.findUnitsCreated()[i];
-
-                deleteUnit.addEventListener('click', () => {
-                    // remove unit from polygon repo + fill & border colour repos
-                    // if not clicked inside polygon use an alert to ask use to select a polygon
-                    // NOTE keyboard shortcuts such as DELETE and fn backspace should also work
-                    // - PGDT-440
-                });
-
-                // recreate the polygon in its new location
-                const { fillColour, borderColour, dimensions } =
-                    getUnit(polygonUnit);
-
-                const polygonMoved = polygonFactory
-                    .createRectangle(dimensions, polygonUnit)
-                    .transform(Matrix.rotateXZ(0))
-                    .translate(
-                        new Vector(
-                            mousePOSITION.x -
-                                dimensions.getWidth(dimensions) / 2,
-                            dimensions.getHeight(dimensions),
-                            mousePOSITION.y -
-                                dimensions.getDepth(dimensions) / 2
-                        )
-                    );
-
-                polygonRepository.push(
-                    polygonMoved,
-                    fillColour,
-                    borderColour,
-                    polygonUnit
-                );
-
-                polygonRepository.deletePolygon(polygonsCreated[i]);
-            }
-        }
-    }
-});
-
-canvas.addEventListener('mouseup', () => {
-    isMoving = false;
-});
-
 const mouseEventRouter = new MouseEventRouter(camera);
+mouseEventRouter.register(document, polygonRepository, polygonFactory);
 
-mouseEventRouter.register(document);
-
-const worldPainter = new WorldPainter(renderingContext, [
-    gridLayerPainter,
-    polygonLayerPainter,
-]);
+const worldPainter = new WorldPainter(renderingContext, [gridLayerPainter, polygonLayerPainter]);
 
 const ticksPerSecond = 10;
 const msPerTick = 1000 / ticksPerSecond;

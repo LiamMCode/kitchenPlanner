@@ -1,6 +1,6 @@
 const EPSILON = 1e-8;
 
-export default class FuzzyMath {
+export class FuzzyMath {
     public static eq(a: number, b: number): boolean {
         return Math.abs(b - a) < EPSILON;
     }

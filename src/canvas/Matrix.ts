@@ -1,7 +1,7 @@
-import Point from './Point';
-import Vector from './Vector';
+import { Point } from './Point';
+import { Vector } from './Vector';
 
-export default class Matrix {
+export class Matrix {
     private constructor(private rows: number[][]) {}
 
     public static rotateXZ(angle: number): Matrix {

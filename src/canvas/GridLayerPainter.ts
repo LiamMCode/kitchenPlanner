@@ -1,10 +1,10 @@
-import Point from './Point';
-import RenderingContext from './RenderingContext';
+import { Point } from './Point';
+import { RenderingContext } from './RenderingContext';
 
 const MINOR_INTERVAL = 20;
 const MAJOR_INTERVAL = 200;
 
-export default class GridLayerPainter {
+export class GridLayerPainter {
     constructor(private context: RenderingContext) {}
 
     public paint(): void {
