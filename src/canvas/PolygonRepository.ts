@@ -27,8 +27,9 @@ export class PolygonRepository {
     }
 
     public findUnitByPolygon(polygon: Polygon): UnitSize {
-        const a = this.polygons.indexOf(polygon);
-        return this.unitsCreated[a];
+        const index = this.polygons.indexOf(polygon);
+
+        return this.unitsCreated[index];
     }
 
     public push(polygon: Polygon, fillColour: string, borderColour: string, unit: UnitSize): void {
@@ -38,12 +39,13 @@ export class PolygonRepository {
         this.unitsCreated.push(unit);
     }
 
-    public deletePolygon(polygonMoved: Polygon): void {
-        const movedIndex = this.polygons.indexOf(polygonMoved);
-        this.polygons.splice(movedIndex, 1);
-        this.polygonFillColours.splice(movedIndex, 1);
-        this.polygonBorderColours.splice(movedIndex, 1);
-        this.unitsCreated.splice(movedIndex, 1);
+    public deletePolygon(polygonToDelete: Polygon): void {
+        this.polygons = this.polygons.filter((polygon) => polygon !== polygonToDelete);
+
+        const index = this.findAll().indexOf(polygonToDelete);
+        this.polygonFillColours.splice(index, 1);
+        this.polygonBorderColours.splice(index, 1);
+        this.unitsCreated.splice(index, 1);
     }
 
     public getSelectedPolygon(): Polygon {

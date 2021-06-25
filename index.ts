@@ -56,7 +56,6 @@ export function getMapandUnit(selectedUnitSize: UnitSize): void {
         .translate(new Vector(1500, 0, 250));
 
     polygonRepository.push(polygon, fillColour, borderColour, selectedUnitSize);
-    polygon.getCentre();
 }
 
 function drawSelected(element: HTMLElement): void {

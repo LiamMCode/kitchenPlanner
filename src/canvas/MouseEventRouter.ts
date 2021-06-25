@@ -2,10 +2,10 @@ import { Camera } from './Camera';
 import { Point } from './Point';
 import { Polygon } from './Polygon';
 import { PolygonRepository } from './PolygonRepository';
-import { Vector } from './Vector';
 
 export class MouseEventRouter {
-    private oldPosition: Point;
+    private lastSelectedPolygon: Polygon | undefined;
+    private deleteUnitButton: HTMLElement = document.getElementById('deleteUnit');
 
     constructor(private camera: Camera, private polygonRepository: PolygonRepository) {}
 
@@ -19,7 +19,16 @@ export class MouseEventRouter {
         });
 
         target.addEventListener('mouseup', (event: MouseEvent) => {
-            this.onMouseUp(this.camera.findMouseEvent(event));
+            this.onMouseUp();
+        });
+
+        target.addEventListener('keydown', (event: KeyboardEvent) => {
+            if (event.key === 'Delete') {
+                this.onDeleteEvent();
+            }
+        });
+        this.deleteUnitButton.addEventListener('click', () => {
+            this.onDeleteEvent();
         });
     }
 
@@ -28,7 +37,6 @@ export class MouseEventRouter {
 
         allPolygons.forEach((polygon) => {
             const boundingBox = polygon.getBoundingBox(this.camera);
-
             polygon.setSelected(boundingBox.getSelectedPolygon(position, polygon));
         });
     }
@@ -46,7 +54,17 @@ export class MouseEventRouter {
         }
     }
 
-    public onMouseUp(position: Point): void {
-        this.polygonRepository.findAll().forEach((polygon) => polygon.setSelected(false));
+    public onMouseUp(): void {
+        const selectedPolygon = this.polygonRepository.getSelectedPolygon();
+        if (selectedPolygon) {
+            this.lastSelectedPolygon = selectedPolygon;
+            this.polygonRepository.findAll().forEach((polygon) => polygon.setSelected(false));
+        }
+    }
+    public onDeleteEvent() {
+        if (this.lastSelectedPolygon) {
+            this.polygonRepository.deletePolygon(this.lastSelectedPolygon);
+            this.lastSelectedPolygon = undefined;
+        }
     }
 }
