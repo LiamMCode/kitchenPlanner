@@ -39,16 +39,22 @@ export class PolygonRepository {
         this.unitsCreated.push(unit);
     }
 
-    public deletePolygon(polygonToDelete: Polygon): void {
-        this.polygons = this.polygons.filter((polygon) => polygon !== polygonToDelete);
-
-        const index = this.findAll().indexOf(polygonToDelete);
-        this.polygonFillColours.splice(index, 1);
-        this.polygonBorderColours.splice(index, 1);
-        this.unitsCreated.splice(index, 1);
+    public deletePolygon(polygonMoved: Polygon): void {
+        const movedIndex = this.polygons.indexOf(polygonMoved);
+        this.polygons.splice(movedIndex, 1);
+        this.polygonFillColours.splice(movedIndex, 1);
+        this.polygonBorderColours.splice(movedIndex, 1);
+        this.unitsCreated.splice(movedIndex, 1);
     }
 
     public getSelectedPolygon(): Polygon {
         return this.polygons.find((polygon) => polygon.isSelected());
+    }
+
+    public deleteAll(): void {
+        this.polygons = [];
+        this.polygonFillColours = [];
+        this.polygonBorderColours = [];
+        this.unitsCreated = [];
     }
 }

@@ -5,20 +5,19 @@ import { PolygonRepository } from './PolygonRepository';
 
 export class MouseEventRouter {
     private lastSelectedPolygon: Polygon | undefined;
-    private deleteUnitButton: HTMLElement = document.getElementById('deleteUnit');
 
     constructor(private camera: Camera, private polygonRepository: PolygonRepository) {}
 
     public register(target: EventTarget): void {
-        target.addEventListener('mousedown', (event: MouseEvent) => {
+        target.addEventListener('mousedown', (event: any) => {
             this.onMouseDown(this.camera.findMouseEvent(event));
         });
 
-        target.addEventListener('mousemove', (event: MouseEvent) => {
+        target.addEventListener('mousemove', (event: any) => {
             this.onMouseMove(this.camera.findMouseEvent(event));
         });
 
-        target.addEventListener('mouseup', (event: MouseEvent) => {
+        target.addEventListener('mouseup', (event: any) => {
             this.onMouseUp();
         });
 
@@ -26,9 +25,6 @@ export class MouseEventRouter {
             if (event.key === 'Delete') {
                 this.onDeleteEvent();
             }
-        });
-        this.deleteUnitButton.addEventListener('click', () => {
-            this.onDeleteEvent();
         });
     }
 
@@ -45,12 +41,14 @@ export class MouseEventRouter {
         const selectedPolygon = this.polygonRepository.getSelectedPolygon();
 
         if (selectedPolygon) {
-            const mouseToPolygon = position
-                .toVector()
-                .subtract(selectedPolygon.getCentre().toVector());
-            const translation = selectedPolygon.translate(mouseToPolygon);
+            if (position.getX() > 0 && position.getZ() > 0) {
+                const mouseToPolygon = position
+                    .toVector()
+                    .subtract(selectedPolygon.getCentre().toVector());
+                const translation = selectedPolygon.translate(mouseToPolygon);
 
-            selectedPolygon.setPoints(translation.getPoints());
+                selectedPolygon.setPoints(translation.getPoints());
+            }
         }
     }
 

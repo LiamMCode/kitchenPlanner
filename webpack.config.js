@@ -1,8 +1,9 @@
 const path = require('path');
+const { webpack } = require('webpack');
 
 module.exports = {
     mode: 'development',
-    entry: './index.ts',
+    entry: path.resolve(__dirname, 'index.tsx'),
     devtool: 'inline-source-map',
     devServer: {
         writeToDisk: true,
@@ -13,12 +14,39 @@ module.exports = {
     },
     resolve: {
         alias: { app: path.resolve(__dirname, 'src/') },
-        extensions: ['.ts', '.js'],
+        extensions: ['*.', '.ts', '.js', '.tsx', '.jsx'],
     },
     module: {
-        rules: [{
-            test: /\.ts$/,
-            use: 'ts-loader',
-        }],
+        rules: [
+            {
+                test: /\.(jsx|js)$/,
+                include: path.resolve(__dirname, 'src'),
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                [
+                                    '@babel/preset-env',
+                                    {
+                                        targets: 'defaults',
+                                    },
+                                ],
+                                '@babel/preset-react',
+                            ],
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.(ts|tsx)$/,
+                use: 'ts-loader',
+            },
+            {
+                test: /\.css$/,
+                use: ['css-loader', 'css-modules-typescript-loader'],
+            },
+        ],
     },
 };
