@@ -1,13 +1,12 @@
+import { Dimensions } from './Dimensions';
+import { Point } from './Point';
 import { Polygon } from './Polygon';
 import { UnitSize } from './PolygonFactory';
 
 export class PolygonRepository {
     private polygons: Polygon[] = [];
-
     private polygonFillColours: string[] = [];
-
     private polygonBorderColours: string[] = [];
-
     private unitsCreated: UnitSize[] = [];
 
     public findAll(): Polygon[] {
@@ -56,5 +55,42 @@ export class PolygonRepository {
         this.polygonFillColours = [];
         this.polygonBorderColours = [];
         this.unitsCreated = [];
+    }
+
+    public saveAndSerialise(name: string, email: string): void {
+        let planPolygons: {
+            polygonDimensions: Dimensions;
+            polygonFill: string;
+            polygonBorder: string;
+            polygonPosition: Point[];
+            unitID: string;
+        }[] = [];
+
+        this.polygons.forEach((polygon) => {
+            const dimensions = polygon.getDimensions();
+            const position = polygon.getPoints();
+
+            const index = this.polygons.indexOf(polygon);
+            const fillColour = this.polygonFillColours[index];
+            const borderColour = this.polygonBorderColours[index];
+            const IDUnit = this.unitsCreated[index];
+
+            const polygonMap = {
+                polygonDimensions: dimensions,
+                polygonFill: fillColour,
+                polygonBorder: borderColour,
+                polygonPosition: position,
+                unitID: IDUnit,
+            };
+            planPolygons.push(polygonMap);
+        });
+        const jsonSavedPlan: string = JSON.stringify(planPolygons);
+        const jsonEmail: string = JSON.stringify(email);
+        const jsonPlanName: string = JSON.stringify(name);
+
+        const fileName: string = jsonPlanName + '.json';
+        const contents: string = jsonEmail + '\n' + jsonSavedPlan;
+
+        // send the filename + contents to PHP (axios)
     }
 }

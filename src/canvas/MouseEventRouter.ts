@@ -5,19 +5,24 @@ import { PolygonRepository } from './PolygonRepository';
 
 export class MouseEventRouter {
     private lastSelectedPolygon: Polygon | undefined;
+    private deleteUnitButton: HTMLElement =
+        document.getElementById('deleteUnit');
 
-    constructor(private camera: Camera, private polygonRepository: PolygonRepository) {}
+    constructor(
+        private camera: Camera,
+        private polygonRepository: PolygonRepository
+    ) {}
 
     public register(target: EventTarget): void {
-        target.addEventListener('mousedown', (event: any) => {
+        target.addEventListener('mousedown', (event: MouseEvent) => {
             this.onMouseDown(this.camera.findMouseEvent(event));
         });
 
-        target.addEventListener('mousemove', (event: any) => {
+        target.addEventListener('mousemove', (event: MouseEvent) => {
             this.onMouseMove(this.camera.findMouseEvent(event));
         });
 
-        target.addEventListener('mouseup', (event: any) => {
+        target.addEventListener('mouseup', (event: MouseEvent) => {
             this.onMouseUp();
         });
 
@@ -33,7 +38,9 @@ export class MouseEventRouter {
 
         allPolygons.forEach((polygon) => {
             const boundingBox = polygon.getBoundingBox(this.camera);
-            polygon.setSelected(boundingBox.getSelectedPolygon(position, polygon));
+            polygon.setSelected(
+                boundingBox.getSelectedPolygon(position, polygon)
+            );
         });
     }
 
@@ -56,7 +63,9 @@ export class MouseEventRouter {
         const selectedPolygon = this.polygonRepository.getSelectedPolygon();
         if (selectedPolygon) {
             this.lastSelectedPolygon = selectedPolygon;
-            this.polygonRepository.findAll().forEach((polygon) => polygon.setSelected(false));
+            this.polygonRepository
+                .findAll()
+                .forEach((polygon) => polygon.setSelected(false));
         }
     }
     public onDeleteEvent() {
