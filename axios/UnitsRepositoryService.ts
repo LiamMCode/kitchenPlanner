@@ -2,8 +2,7 @@ import { Dimensions } from 'app/canvas/Dimensions';
 import axios from 'axios';
 
 interface dataStuff {
-    id: number;
-    unitType: string;
+    type: string;
     name: string;
     fillColour: string;
     borderColour: string;
@@ -19,23 +18,127 @@ class UnitsRepositoryService {
     private worktopUnits: Map<string, dataStuff> = new Map();
 
     public async loadData() {
-        const units = this.cacheUnits(
+        const unitsBWT = this.cacheUnits(
             'https://symfony-sandbox.dev.wrenkitchens.com/data/units'
         );
-        // const b = axios.get(
+        // const unitsDecor = this.cacheUnits(
         //     'https://symfony-sandbox.dev.wrenkitchens.com/data/decor-end-panels'
         // );
-        // const c = 'https://symfony-sandbox.dev.wrenkitchens.com/data/worktops';
+        // const unitsWorktop = this.cacheUnits(
+        //     'https://symfony-sandbox.dev.wrenkitchens.com/data/worktops'
+        // );
     }
 
     private async cacheUnits(url: string) {
-        // use axios to grab data and type data so that it conforms to some interface i.e 'dataStuff'
-        // we then want to populate the <this.units> via this.units.set(key, value)
         const toCache = await axios.get(url).then((res) => {
-            const dataCollected: dataStuff[] = res.data['hydra:member'];
+            const allData = res.data['hydra:member'];
+            allData.splice(20, allData.length - 20);
 
-            dataCollected.splice(20, dataCollected.length - 20);
-            console.log(dataCollected);
+            if (!allData) {
+                //fall back to hard coded stuff in UnitsMap.ts
+            } else {
+                allData.forEach((obj: dataStuff) => {
+                    let id: number = allData.indexOf(obj);
+                    let type: string = obj.type;
+                    let name: string = obj.name;
+                    let fillColour: string = obj.fillColour;
+                    let borderColour: string = obj?.borderColour;
+                    let dimensions: Dimensions = obj.dimensions;
+
+                    switch (type) {
+                        case 'wall': {
+                            let list = this.wallUnits;
+                            this.populateMaps(
+                                list,
+                                id,
+                                type,
+                                name,
+                                fillColour,
+                                dimensions,
+                                borderColour
+                            );
+                            break;
+                        }
+                        case 'base': {
+                            let list = this.baseUnits;
+                            this.populateMaps(
+                                list,
+                                id,
+                                type,
+                                name,
+                                fillColour,
+                                dimensions,
+                                borderColour
+                            );
+                            break;
+                        }
+                        case 'tower': {
+                            let list = this.towerUnits;
+                            this.populateMaps(
+                                list,
+                                id,
+                                type,
+                                name,
+                                fillColour,
+                                dimensions,
+                                borderColour
+                            );
+                            break;
+                        }
+                        case 'decor': {
+                            let list = this.decorUnits;
+                            this.populateMaps(
+                                list,
+                                id,
+                                type,
+                                name,
+                                fillColour,
+                                dimensions
+                            );
+                            break;
+                        }
+                        case 'worktops': {
+                            let list = this.worktopUnits;
+                            this.populateMaps(
+                                list,
+                                id,
+                                type,
+                                name,
+                                fillColour,
+                                dimensions,
+                                borderColour
+                            );
+                            break;
+                        }
+                    }
+                });
+            }
+            console.log(
+                'Wall Units ',
+                this.wallUnits,
+                'Base Units ',
+                this.baseUnits,
+                'Tower Units ',
+                this.towerUnits
+            );
+        });
+    }
+
+    public populateMaps(
+        list: Map<string, dataStuff>,
+        id: number,
+        unitType: string,
+        unitName: string,
+        fillColour: string,
+        dimensions: Dimensions,
+        borderColour?: string
+    ) {
+        list.set(id.toString(), {
+            type: unitType,
+            name: unitName,
+            fillColour: fillColour,
+            borderColour: borderColour,
+            dimensions: dimensions,
         });
     }
 }
