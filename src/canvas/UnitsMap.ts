@@ -1,4 +1,3 @@
-import { getData } from 'app/../axios/APIDataHandler';
 import { Dimensions } from './Dimensions';
 import { UnitSize } from './PolygonFactory';
 import { UnitMapping, UnitStyle } from './UnitUtils';

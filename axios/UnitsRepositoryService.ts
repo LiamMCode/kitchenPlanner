@@ -1,14 +1,19 @@
 import { Dimensions } from 'app/canvas/Dimensions';
 import { UNIT_MAPPING } from 'app/canvas/UnitsMap';
+import { UnitStyle } from 'app/canvas/UnitUtils';
 import axios from 'axios';
 
 interface dataStuff {
     type: string;
     name: string;
     fillColour: string;
-    borderColour: string;
+    borderColour?: string;
     dimensions: Dimensions;
     // can extend to price if basket system gets implemented
+    // price: Intl.NumberFormat('en-US', {
+    //    style: 'currency',
+    //    currency: 'GBP'
+    //});
 }
 
 class UnitsRepositoryService {
@@ -21,7 +26,7 @@ class UnitsRepositoryService {
     public async loadData() {
         const unitsBWT = this.cacheUnits(
             'https://symfony-sandbox.dev.wrenkitchens.com/data/units',
-            20
+            18
         );
         const unitsDecor = this.cacheUnits(
             'https://symfony-sandbox.dev.wrenkitchens.com/data/decor-end-panels',
@@ -57,34 +62,31 @@ class UnitsRepositoryService {
             allData.splice(listLength, allData.length - listLength);
 
             allData.forEach((obj: dataStuff) => {
+                const id: number = allData.indexOf(obj);
+                let list;
                 switch (obj.type) {
                     case 'wall': {
-                        const list = this.wallUnits;
-                        const id: number = allData.indexOf(obj);
+                        list = this.wallUnits;
                         this.populateMaps(list, obj, id);
                         break;
                     }
                     case 'base': {
-                        const list = this.baseUnits;
-                        const id: number = allData.indexOf(obj);
+                        list = this.baseUnits;
                         this.populateMaps(list, obj, id);
                         break;
                     }
                     case 'tower': {
-                        const list = this.towerUnits;
-                        const id: number = allData.indexOf(obj);
+                        list = this.towerUnits;
                         this.populateMaps(list, obj, id);
                         break;
                     }
                     case 'decor-end-panel': {
-                        const list = this.decorUnits;
-                        const id: number = allData.indexOf(obj);
+                        list = this.decorUnits;
                         this.populateMaps(list, obj, id);
                         break;
                     }
                     case 'worktop': {
-                        const list = this.worktopUnits;
-                        const id: number = allData.indexOf(obj);
+                        list = this.worktopUnits;
                         this.populateMaps(list, obj, id);
                         break;
                     }
@@ -93,7 +95,7 @@ class UnitsRepositoryService {
         });
     }
 
-    public populateMaps(
+    private populateMaps(
         list: Map<string, dataStuff>,
         obj: dataStuff,
         id: number
@@ -113,88 +115,92 @@ class UnitsRepositoryService {
         });
     }
 
-    public fallBackData() {
+    private fallBackData() {
         if (!this.baseUnits.size) {
-            this.baseUnits.set(this.baseUnits.size.toString(), {
-                type: 'base',
-                name: 'unit1',
-                fillColour: UNIT_MAPPING.BaseSizeA.fillColour,
-                borderColour: UNIT_MAPPING.BaseSizeA.borderColour,
-                dimensions: UNIT_MAPPING.BaseSizeA.dimensions,
-            });
-            this.baseUnits.set(this.baseUnits.size.toString(), {
-                type: 'base',
-                name: 'unit2',
-                fillColour: UNIT_MAPPING.BaseSizeB.fillColour,
-                borderColour: UNIT_MAPPING.BaseSizeB.borderColour,
-                dimensions: UNIT_MAPPING.BaseSizeB.dimensions,
-            });
+            this.backUpData(
+                this.baseUnits,
+                'base',
+                'unit1',
+                UNIT_MAPPING.BaseSizeA
+            );
+            this.backUpData(
+                this.baseUnits,
+                'base',
+                'unit2',
+                UNIT_MAPPING.BaseSizeB
+            );
         }
         if (!this.wallUnits.size) {
-            this.wallUnits.set(this.wallUnits.size.toString(), {
-                type: 'wall',
-                name: 'unit1',
-                fillColour: UNIT_MAPPING.WallSizeA.fillColour,
-                borderColour: UNIT_MAPPING.WallSizeA.borderColour,
-                dimensions: UNIT_MAPPING.WallSizeA.dimensions,
-            });
-            this.wallUnits.set(this.wallUnits.size.toString(), {
-                type: 'wall',
-                name: 'unit2',
-                fillColour: UNIT_MAPPING.WallSizeB.fillColour,
-                borderColour: UNIT_MAPPING.WallSizeB.borderColour,
-                dimensions: UNIT_MAPPING.WallSizeB.dimensions,
-            });
+            this.backUpData(
+                this.wallUnits,
+                'wall',
+                'unit1',
+                UNIT_MAPPING.WallSizeA
+            );
+            this.backUpData(
+                this.wallUnits,
+                'wall',
+                'unit2',
+                UNIT_MAPPING.WallSizeB
+            );
         }
         if (!this.towerUnits.size) {
-            this.towerUnits.set(this.towerUnits.size.toString(), {
-                type: 'tower',
-                name: 'unit1',
-                fillColour: UNIT_MAPPING.TowerSizeA.fillColour,
-                borderColour: UNIT_MAPPING.TowerSizeA.borderColour,
-                dimensions: UNIT_MAPPING.TowerSizeA.dimensions,
-            });
-            this.towerUnits.set(this.towerUnits.size.toString(), {
-                type: 'tower',
-                name: 'unit2',
-                fillColour: UNIT_MAPPING.TowerSizeB.fillColour,
-                borderColour: UNIT_MAPPING.TowerSizeB.borderColour,
-                dimensions: UNIT_MAPPING.TowerSizeB.dimensions,
-            });
+            this.backUpData(
+                this.towerUnits,
+                'tower',
+                'unit1',
+                UNIT_MAPPING.TowerSizeA
+            );
+            this.backUpData(
+                this.towerUnits,
+                'tower',
+                'unit2',
+                UNIT_MAPPING.TowerSizeB
+            );
         }
         if (!this.decorUnits.size) {
-            this.decorUnits.set(this.decorUnits.size.toString(), {
-                type: 'decor',
-                name: 'unit1',
-                fillColour: UNIT_MAPPING.DecorSizeA.fillColour,
-                borderColour: UNIT_MAPPING.DecorSizeA.borderColour,
-                dimensions: UNIT_MAPPING.DecorSizeA.dimensions,
-            });
-            this.decorUnits.set(this.decorUnits.size.toString(), {
-                type: 'decor',
-                name: 'unit2',
-                fillColour: UNIT_MAPPING.DecorSizeB.fillColour,
-                borderColour: UNIT_MAPPING.DecorSizeB.borderColour,
-                dimensions: UNIT_MAPPING.DecorSizeB.dimensions,
-            });
+            this.backUpData(
+                this.decorUnits,
+                'decor',
+                'unit1',
+                UNIT_MAPPING.DecorSizeA
+            );
+            this.backUpData(
+                this.decorUnits,
+                'decor',
+                'unit2',
+                UNIT_MAPPING.DecorSizeB
+            );
         }
         if (!this.worktopUnits.size) {
-            this.worktopUnits.set(this.worktopUnits.size.toString(), {
-                type: 'worktops',
-                name: 'unit1',
-                fillColour: UNIT_MAPPING.WorktopSizeA.fillColour,
-                borderColour: UNIT_MAPPING.WorktopSizeA.borderColour,
-                dimensions: UNIT_MAPPING.WorktopSizeA.dimensions,
-            });
-            this.worktopUnits.set(this.worktopUnits.size.toString(), {
-                type: 'worktops',
-                name: 'unit2',
-                fillColour: UNIT_MAPPING.WorktopSizeB.fillColour,
-                borderColour: UNIT_MAPPING.WorktopSizeB.borderColour,
-                dimensions: UNIT_MAPPING.WorktopSizeB.dimensions,
-            });
+            this.backUpData(
+                this.worktopUnits,
+                'worktops',
+                'unit1',
+                UNIT_MAPPING.WorktopSizeA
+            );
+            this.backUpData(
+                this.worktopUnits,
+                'worktops',
+                'unit2',
+                UNIT_MAPPING.WorktopSizeB
+            );
         }
     }
+    // list, type, name, unitStyle
+    private backUpData(
+        list: Map<string, dataStuff>,
+        type: string,
+        name: string,
+        unit: UnitStyle
+    ) {
+        list.set(list.size.toString(), {
+            type,
+            name,
+            fillColour: unit.fillColour,
+            borderColour: unit.borderColour,
+            dimensions: unit.dimensions,
+        });
+    }
 }
-
 export const unitsRepositoryService = new UnitsRepositoryService();

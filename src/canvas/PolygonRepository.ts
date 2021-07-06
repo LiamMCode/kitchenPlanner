@@ -68,7 +68,6 @@ export class PolygonRepository {
             polygonFill: string;
             polygonBorder: string;
             polygonPosition: Point[];
-            unitID: string;
         }[] = [];
 
         this.polygons.forEach((polygon) => {
@@ -78,14 +77,12 @@ export class PolygonRepository {
             const index = this.polygons.indexOf(polygon);
             const fillColour = this.polygonFillColours[index];
             const borderColour = this.polygonBorderColours[index];
-            const IDUnit = this.unitsCreated[index];
 
             const polygonMap = {
                 polygonDimensions: dimensions,
                 polygonFill: fillColour,
                 polygonBorder: borderColour,
                 polygonPosition: position,
-                unitID: IDUnit,
             };
             planPolygons.push(polygonMap);
         });
