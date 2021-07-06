@@ -1,6 +1,25 @@
+import { getData } from 'app/../axios/APIDataHandler';
 import { Dimensions } from './Dimensions';
 import { UnitSize } from './PolygonFactory';
 import { UnitMapping, UnitStyle } from './UnitUtils';
+
+export const UNIT_CATEGORIES = new Map<string, UnitSize[]>([
+    ['Wall Units', [UnitSize.WallSizeA, UnitSize.WallSizeB]],
+    ['Base Units', [UnitSize.BaseSizeA, UnitSize.BaseSizeB]],
+    ['Tower Units', [UnitSize.TowerSizeA, UnitSize.TowerSizeB]],
+    [
+        'Decor Units',
+        [
+            UnitSize.DecorSizeA,
+            UnitSize.DecorSizeB,
+            UnitSize.DecorSizeC,
+            UnitSize.DecorSizeD,
+            UnitSize.DecorSizeE,
+            UnitSize.DecorSizeF,
+        ],
+    ],
+    ['Worktop Units', [UnitSize.WorktopSizeA, UnitSize.WorktopSizeB]],
+]);
 
 export const UNIT_MAPPING: UnitMapping = {
     [UnitSize.WallSizeA]: {

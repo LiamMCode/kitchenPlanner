@@ -10,8 +10,12 @@ import { WorldPainter } from './src/canvas/WorldPainter';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { App } from './src/canvas/App';
+import { unitsRepositoryService } from './axios/UnitsRepositoryService';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+window.addEventListener('load', async (event) => {
+    const data = await unitsRepositoryService.loadData();
+}),
+    ReactDOM.render(<App />, document.getElementById('root'));
 
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 
@@ -40,9 +44,9 @@ const worldPainter = new WorldPainter(renderingContext, [
     polygonLayerPainter,
 ]);
 
-function step() {
+function renderLoop() {
     renderingContext.fitToScreen();
     worldPainter.paint();
-    requestAnimationFrame(step);
+    requestAnimationFrame(renderLoop);
 }
-requestAnimationFrame(step);
+requestAnimationFrame(renderLoop);

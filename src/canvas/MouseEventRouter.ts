@@ -5,8 +5,7 @@ import { PolygonRepository } from './PolygonRepository';
 
 export class MouseEventRouter {
     private lastSelectedPolygon: Polygon | undefined;
-    private deleteUnitButton: HTMLElement =
-        document.getElementById('deleteUnit');
+    private oldMousePosition: Point;
 
     constructor(
         private camera: Camera,
@@ -48,15 +47,17 @@ export class MouseEventRouter {
         const selectedPolygon = this.polygonRepository.getSelectedPolygon();
 
         if (selectedPolygon) {
-            if (position.getX() > 0 && position.getZ() > 0) {
-                const mouseToPolygon = position
-                    .toVector()
-                    .subtract(selectedPolygon.getCentre().toVector());
-                const translation = selectedPolygon.translate(mouseToPolygon);
+            const mousePositionDifference = position
+                .toVector()
+                .subtract(this.oldMousePosition.toVector());
 
-                selectedPolygon.setPoints(translation.getPoints());
-            }
+            const translation = selectedPolygon.translate(
+                mousePositionDifference
+            );
+            selectedPolygon.setPoints(translation.getPoints());
         }
+
+        this.oldMousePosition = position;
     }
 
     public onMouseUp(): void {
@@ -68,7 +69,8 @@ export class MouseEventRouter {
                 .forEach((polygon) => polygon.setSelected(false));
         }
     }
-    public onDeleteEvent() {
+
+    public onDeleteEvent(): void {
         if (this.lastSelectedPolygon) {
             this.polygonRepository.deletePolygon(this.lastSelectedPolygon);
             this.lastSelectedPolygon = undefined;

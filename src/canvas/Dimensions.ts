@@ -1,18 +1,19 @@
 export class Dimensions {
-    constructor(private width: number, private height: number, private depth: number) {}
+    constructor(
+        private width: number,
+        private height: number,
+        private depth: number
+    ) {}
 
-    public getWidth(unitDimensions: Dimensions): number {
-        this.width = unitDimensions.width;
+    public getWidth(): number {
         return this.width;
     }
 
-    public getHeight(unitDimensions: Dimensions): number {
-        this.height = unitDimensions.height;
+    public getHeight(): number {
         return this.height;
     }
 
-    public getDepth(unitDimensions: Dimensions): number {
-        this.depth = unitDimensions.depth;
+    public getDepth(): number {
         return this.depth;
     }
 }

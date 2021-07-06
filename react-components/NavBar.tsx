@@ -7,7 +7,7 @@ let planName: string;
 let customerEmail: string;
 
 export class NavBar extends React.Component<{}, {}> {
-    public validateEmail(input: string) {
+    public validateEmail(input: string): boolean {
         var validRegex =
             /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -18,7 +18,7 @@ export class NavBar extends React.Component<{}, {}> {
         }
     }
 
-    public savePlanPrompts() {
+    public savePlanPrompts(): void {
         planName = prompt('Please Enter a name for the plan');
         if (planName === '') {
             alert('please enter a plan name');
@@ -60,48 +60,28 @@ export class NavBar extends React.Component<{}, {}> {
             <>
                 <nav className='navbar'>
                     <div className='nav-bar-container'>
-                        <NavBarDropDown
-                            listItems={['WallSizeA', 'WallSizeB']}
-                            title={'Wall Units'}
-                        />
-                        <NavBarDropDown
-                            listItems={['BaseSizeA', 'BaseSizeB']}
-                            title={'Base Units'}
-                        />
-                        <NavBarDropDown
-                            listItems={['TowerSizeA', 'TowerSizeB']}
-                            title={'Tower Units'}
-                        />
-                        <NavBarDropDown
-                            listItems={[
-                                'DecorSizeA',
-                                'DecorSizeB',
-                                'DecorSizeC',
-                                'DecorSizeD',
-                                'DecorSizeE',
-                                'DecorSizeF',
-                            ]}
-                            title={'Decor Units'}
-                        />
-                        <NavBarDropDown
-                            listItems={['WorktopSizeA', 'WorktopSizeB']}
-                            title={'Worktop Units'}
-                        />
+                        <NavBarDropDown title={'Wall Units'} />
+                        <NavBarDropDown title={'Base Units'} />
+                        <NavBarDropDown title={'Tower Units'} />
+                        <NavBarDropDown title={'Decor Units'} />
+                        <NavBarDropDown title={'Worktop Units'} />
 
                         <li
                             className='nav-link'
                             id='NewPlan'
                             onClick={this.newPlan}
                         >
-                            New
+                            New Plan
                         </li>
+
                         <li
                             className='nav-link'
                             id='SavePlan'
                             onClick={this.savePlan}
                         >
-                            Save
+                            Save Plan
                         </li>
+
                         <li
                             className='nav-link'
                             id='deleteUnit'

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Matrix } from '../src/canvas/Matrix';
 import { Vector } from '../src/canvas/Vector';
 import { UnitSize } from '../src/canvas/PolygonFactory';
-import { getUnit } from '../src/canvas/UnitsMap';
+import { getUnit, UNIT_CATEGORIES } from '../src/canvas/UnitsMap';
 import {
     polygonLayerPainter,
     polygonFactory,
@@ -14,7 +14,6 @@ interface IState {
 }
 
 interface UnitListBoxProps {
-    listItems: string[];
     title: string;
 }
 
@@ -41,16 +40,20 @@ export class NavBarDropDown extends React.Component<UnitListBoxProps, IState> {
         const unit = selectedUnitSize as UnitSize;
         polygonLayerPainter.setUnit(unit);
 
-        const { dimensions, fillColour, borderColour } = getUnit(unit);
         const polygon = polygonFactory
-            .createRectangle(dimensions, unit)
+            .createRectangle(getUnit(unit))
             .transform(Matrix.rotateXZ(0))
             .translate(new Vector(1500, 0, 250));
 
-        polygonRepository.push(polygon, fillColour, borderColour, unit);
+        polygonRepository.push(polygon, getUnit(unit), unit);
     };
 
+    private getItemList(unitType: string): string[] {
+        return UNIT_CATEGORIES.get(unitType);
+    }
+
     public render(): React.ReactNode {
+        const listItems = this.getItemList(this.props.title);
         return (
             <div>
                 <div className='dropdown' onMouseEnter={this.updateState}>
@@ -62,7 +65,7 @@ export class NavBarDropDown extends React.Component<UnitListBoxProps, IState> {
                         onMouseLeave={this.updateState}
                     >
                         <ul>
-                            {this.props.listItems.map((listItem) => {
+                            {listItems.map((listItem) => {
                                 return (
                                     <li
                                         className='nav-link'

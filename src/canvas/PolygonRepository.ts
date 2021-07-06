@@ -2,11 +2,16 @@ import { Dimensions } from './Dimensions';
 import { Point } from './Point';
 import { Polygon } from './Polygon';
 import { UnitSize } from './PolygonFactory';
+import { UnitStyle } from './UnitUtils';
+import { sendData } from '../../axios/APIDataHandler';
 
 export class PolygonRepository {
     private polygons: Polygon[] = [];
+
     private polygonFillColours: string[] = [];
+
     private polygonBorderColours: string[] = [];
+
     private unitsCreated: UnitSize[] = [];
 
     public findAll(): Polygon[] {
@@ -31,11 +36,11 @@ export class PolygonRepository {
         return this.unitsCreated[index];
     }
 
-    public push(polygon: Polygon, fillColour: string, borderColour: string, unit: UnitSize): void {
+    public push(polygon: Polygon, unit: UnitStyle, unitName: UnitSize): void {
         this.polygons.push(polygon);
-        this.polygonFillColours.push(fillColour);
-        this.polygonBorderColours.push(borderColour);
-        this.unitsCreated.push(unit);
+        this.polygonFillColours.push(unit.fillColour);
+        this.polygonBorderColours.push(unit.borderColour);
+        this.unitsCreated.push(unitName);
     }
 
     public deletePolygon(polygonMoved: Polygon): void {
@@ -90,7 +95,7 @@ export class PolygonRepository {
 
         const fileName: string = jsonPlanName + '.json';
         const contents: string = jsonEmail + '\n' + jsonSavedPlan;
-
-        // send the filename + contents to PHP (axios)
+        const url: string = 'http://SomeURLHERE';
+        sendData(fileName, contents, url);
     }
 }
