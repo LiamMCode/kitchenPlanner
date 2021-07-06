@@ -33,11 +33,9 @@ export class NavBar extends React.Component<{}, {}> {
     }
 
     public newPlan = () => {
-        if (
-            confirm(
-                'Are you sure you want to create a new plan, you will lose any progress on the current plan'
-            )
-        ) {
+        const newPlanString =
+            'Are you sure you want to create a new plan, you will lose the current plan';
+        if (confirm(newPlanString)) {
             if (confirm('Would you like to save the current plan')) {
                 this.savePlanPrompts();
                 polygonRepository.deleteAll();

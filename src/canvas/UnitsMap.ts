@@ -7,17 +7,7 @@ export const UNIT_CATEGORIES = new Map<string, UnitSize[]>([
     ['Wall Units', [UnitSize.WallSizeA, UnitSize.WallSizeB]],
     ['Base Units', [UnitSize.BaseSizeA, UnitSize.BaseSizeB]],
     ['Tower Units', [UnitSize.TowerSizeA, UnitSize.TowerSizeB]],
-    [
-        'Decor Units',
-        [
-            UnitSize.DecorSizeA,
-            UnitSize.DecorSizeB,
-            UnitSize.DecorSizeC,
-            UnitSize.DecorSizeD,
-            UnitSize.DecorSizeE,
-            UnitSize.DecorSizeF,
-        ],
-    ],
+    ['Decor Units', [UnitSize.DecorSizeA, UnitSize.DecorSizeB]],
     ['Worktop Units', [UnitSize.WorktopSizeA, UnitSize.WorktopSizeB]],
 ]);
 
@@ -69,30 +59,6 @@ export const UNIT_MAPPING: UnitMapping = {
         fillColour: '#121214',
         dimensions: new Dimensions(20, 870, 450),
         unitID: 14001,
-    },
-    [UnitSize.DecorSizeC]: {
-        borderColour: '#72757B',
-        fillColour: '#121214',
-        dimensions: new Dimensions(20, 720, 400),
-        unitID: 14002,
-    },
-    [UnitSize.DecorSizeD]: {
-        borderColour: '#72757B',
-        fillColour: '#121214',
-        dimensions: new Dimensions(20, 720, 330),
-        unitID: 14003,
-    },
-    [UnitSize.DecorSizeE]: {
-        borderColour: '#72757B',
-        fillColour: '#121214',
-        dimensions: new Dimensions(20, 2070, 450),
-        unitID: 14004,
-    },
-    [UnitSize.DecorSizeF]: {
-        borderColour: '#72757B',
-        fillColour: '#121214',
-        dimensions: new Dimensions(20, 2070, 450),
-        unitID: 14005,
     },
     [UnitSize.WorktopSizeA]: {
         borderColour: '#E8A81A',

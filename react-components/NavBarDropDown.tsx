@@ -9,7 +9,7 @@ import {
     polygonRepository,
 } from '../index';
 
-interface IState {
+interface hoveredState {
     isHovered: boolean;
 }
 
@@ -17,8 +17,11 @@ interface UnitListBoxProps {
     title: string;
 }
 
-export class NavBarDropDown extends React.Component<UnitListBoxProps, IState> {
-    public state: IState;
+export class NavBarDropDown extends React.Component<
+    UnitListBoxProps,
+    hoveredState
+> {
+    public state: hoveredState;
 
     constructor(props: UnitListBoxProps) {
         super(props);
@@ -29,11 +32,9 @@ export class NavBarDropDown extends React.Component<UnitListBoxProps, IState> {
     }
 
     public updateState = (): void => {
-        this.setState((state) => {
-            return {
-                isHovered: !state.isHovered,
-            };
-        });
+        this.setState((state) => ({
+            isHovered: !state.isHovered,
+        }));
     };
 
     private spawnUnit = (selectedUnitSize: string): void => {
