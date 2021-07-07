@@ -7,7 +7,7 @@ export class PolygonPainter {
     public paint(
         polygon: Polygon[],
         polygonFillColours: string[],
-        polygonBorderColours: string[],
+        polygonBorderColours: string[]
     ): void {
         for (let i = 0; i < polygon.length; i++) {
             this.context.setFillStyle(polygonFillColours[i]);

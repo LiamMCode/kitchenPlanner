@@ -12,10 +12,11 @@ import * as ReactDOM from 'react-dom';
 import { App } from './src/canvas/App';
 import { unitsRepositoryService } from './axios/UnitsRepositoryService';
 
-window.addEventListener('load', async (event) => {
-    const data = await unitsRepositoryService.loadData();
-}),
-    ReactDOM.render(<App />, document.getElementById('root'));
+window.addEventListener('load', async () => {
+    await unitsRepositoryService.loadData();
+});
+
+ReactDOM.render(<App />, document.getElementById('root'));
 
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 
@@ -29,20 +30,14 @@ const gridLayerPainter = new GridLayerPainter(renderingContext);
 const polygonPainter = new PolygonPainter(renderingContext);
 export const polygonRepository = new PolygonRepository();
 
-export const polygonLayerPainter = new PolygonLayerPainter(
-    polygonRepository,
-    polygonPainter
-);
+export const polygonLayerPainter = new PolygonLayerPainter(polygonRepository, polygonPainter);
 
 export const polygonFactory = new PolygonFactory();
 
 export const mouseEventRouter = new MouseEventRouter(camera, polygonRepository);
 mouseEventRouter.register(document);
 
-const worldPainter = new WorldPainter(renderingContext, [
-    gridLayerPainter,
-    polygonLayerPainter,
-]);
+const worldPainter = new WorldPainter(renderingContext, [gridLayerPainter, polygonLayerPainter]);
 
 function renderLoop() {
     renderingContext.fitToScreen();

@@ -5,12 +5,10 @@ import { PolygonRepository } from './PolygonRepository';
 
 export class MouseEventRouter {
     private lastSelectedPolygon: Polygon | undefined;
+
     private oldMousePosition: Point;
 
-    constructor(
-        private camera: Camera,
-        private polygonRepository: PolygonRepository
-    ) {}
+    constructor(private camera: Camera, private polygonRepository: PolygonRepository) {}
 
     public register(target: EventTarget): void {
         target.addEventListener('mousedown', (event: MouseEvent) => {
@@ -37,9 +35,7 @@ export class MouseEventRouter {
 
         allPolygons.forEach((polygon) => {
             const boundingBox = polygon.getBoundingBox(this.camera);
-            polygon.setSelected(
-                boundingBox.getSelectedPolygon(position, polygon)
-            );
+            polygon.setSelected(boundingBox.getSelectedPolygon(position, polygon));
         });
     }
 
@@ -51,9 +47,7 @@ export class MouseEventRouter {
                 .toVector()
                 .subtract(this.oldMousePosition.toVector());
 
-            const translation = selectedPolygon.translate(
-                mousePositionDifference
-            );
+            const translation = selectedPolygon.translate(mousePositionDifference);
             selectedPolygon.setPoints(translation.getPoints());
         }
 
@@ -64,9 +58,7 @@ export class MouseEventRouter {
         const selectedPolygon = this.polygonRepository.getSelectedPolygon();
         if (selectedPolygon) {
             this.lastSelectedPolygon = selectedPolygon;
-            this.polygonRepository
-                .findAll()
-                .forEach((polygon) => polygon.setSelected(false));
+            this.polygonRepository.findAll().forEach((polygon) => polygon.setSelected(false));
         }
     }
 

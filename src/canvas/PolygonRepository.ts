@@ -1,8 +1,7 @@
+import { dataStuff } from 'app/../axios/UnitsRepositoryService';
 import { Dimensions } from './Dimensions';
 import { Point } from './Point';
 import { Polygon } from './Polygon';
-import { UnitSize } from './PolygonFactory';
-import { UnitStyle } from './UnitUtils';
 import { sendData } from '../../axios/APIDataHandler';
 
 export class PolygonRepository {
@@ -12,7 +11,7 @@ export class PolygonRepository {
 
     private polygonBorderColours: string[] = [];
 
-    private unitsCreated: UnitSize[] = [];
+    private unitsCreated: string[] = [];
 
     public findAll(): Polygon[] {
         return this.polygons;
@@ -26,21 +25,20 @@ export class PolygonRepository {
         return this.polygonBorderColours;
     }
 
-    public findUnitsCreated(): UnitSize[] {
+    public findUnitsCreated(): string[] {
         return this.unitsCreated;
     }
 
-    public findUnitByPolygon(polygon: Polygon): UnitSize {
+    public findUnitByPolygon(polygon: Polygon): string {
         const index = this.polygons.indexOf(polygon);
-
         return this.unitsCreated[index];
     }
 
-    public push(polygon: Polygon, unit: UnitStyle, unitName: UnitSize): void {
+    public push(polygon: Polygon, unit: dataStuff): void {
         this.polygons.push(polygon);
         this.polygonFillColours.push(unit.fillColour);
         this.polygonBorderColours.push(unit.borderColour);
-        this.unitsCreated.push(unitName);
+        this.unitsCreated.push(unit.name);
     }
 
     public deletePolygon(polygonMoved: Polygon): void {
@@ -63,7 +61,7 @@ export class PolygonRepository {
     }
 
     public saveAndSerialise(name: string, email: string): void {
-        let planPolygons: {
+        const planPolygons: {
             polygonDimensions: Dimensions;
             polygonFill: string;
             polygonBorder: string;
@@ -90,9 +88,9 @@ export class PolygonRepository {
         const jsonEmail: string = JSON.stringify(email);
         const jsonPlanName: string = JSON.stringify(name);
 
-        const fileName: string = jsonPlanName + '.json';
-        const contents: string = jsonEmail + '\n' + jsonSavedPlan;
-        const url: string = 'http://SomeURLHERE';
+        const fileName = `${jsonPlanName}.json`;
+        const contents = `${jsonEmail}\n${jsonSavedPlan}`;
+        const url = 'http://SomeURLHERE';
         sendData(fileName, contents, url);
     }
 }

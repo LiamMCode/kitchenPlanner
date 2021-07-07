@@ -17,14 +17,14 @@ export class Polygon {
     public translate(vector: Vector): Polygon {
         return new Polygon(
             this.dimensions,
-            this.points.map((point) => point.translate(vector)),
+            this.points.map((point) => point.translate(vector))
         );
     }
 
     public transform(matrix: Matrix): Polygon {
         return new Polygon(
             this.dimensions,
-            this.points.map((point) => matrix.applyToPoint(point)),
+            this.points.map((point) => matrix.applyToPoint(point))
         );
     }
 

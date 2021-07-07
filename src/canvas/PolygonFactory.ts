@@ -1,6 +1,6 @@
+import { dataStuff } from '../../axios/UnitsRepositoryService';
 import { Point } from './Point';
 import { Polygon } from './Polygon';
-import { UnitStyle } from './UnitUtils';
 
 export enum UnitSize {
     WallSizeA = 'WallSizeA',
@@ -16,20 +16,20 @@ export enum UnitSize {
 }
 
 export class PolygonFactory {
-    public createRectangle(unit: UnitStyle): Polygon {
-        const width = unit.dimensions.getWidth();
-        const depth = unit.dimensions.getDepth();
+    public createRectangle(unit: dataStuff): Polygon {
+        console.log(unit);
+        const { dimensions } = unit;
+        console.log(dimensions);
 
-        const topLeft = new Point(0, 0, depth);
-        const topRight = new Point(width, 0, depth);
-        const bottomRight = new Point(width, 0, 0);
-        const bottomLeft = new Point(0, 0, 0);
+        const width = dimensions.getWidth();
+        const height = dimensions.getHeight();
+        const depth = dimensions.getDepth();
 
-        return new Polygon(unit.dimensions, [
-            topLeft,
-            topRight,
-            bottomRight,
-            bottomLeft,
-        ]);
+        const topLeft = new Point(0, height, depth);
+        const topRight = new Point(width, height, depth);
+        const bottomRight = new Point(width, height, 0);
+        const bottomLeft = new Point(0, height, 0);
+
+        return new Polygon(unit.dimensions, [topLeft, topRight, bottomRight, bottomLeft]);
     }
 }

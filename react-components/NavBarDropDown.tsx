@@ -1,26 +1,19 @@
 import * as React from 'react';
 import { Matrix } from '../src/canvas/Matrix';
 import { Vector } from '../src/canvas/Vector';
-import { UnitSize } from '../src/canvas/PolygonFactory';
-import { getUnit, UNIT_CATEGORIES } from '../src/canvas/UnitsMap';
-import {
-    polygonLayerPainter,
-    polygonFactory,
-    polygonRepository,
-} from '../index';
+import { polygonLayerPainter, polygonFactory, polygonRepository } from '../index';
+import { dataStuff, unitsRepositoryService } from '../axios/UnitsRepositoryService';
 
 interface hoveredState {
     isHovered: boolean;
+    list: Map<string, dataStuff>;
 }
 
 interface UnitListBoxProps {
     title: string;
 }
 
-export class NavBarDropDown extends React.Component<
-    UnitListBoxProps,
-    hoveredState
-> {
+export class NavBarDropDown extends React.Component<UnitListBoxProps, hoveredState> {
     public state: hoveredState;
 
     constructor(props: UnitListBoxProps) {
@@ -28,7 +21,15 @@ export class NavBarDropDown extends React.Component<
 
         this.state = {
             isHovered: false,
+            list: new Map(),
         };
+    }
+
+    public async componentDidMount() {
+        this.setState({
+            ...this.state,
+            list: await unitsRepositoryService.getList(this.props.title),
+        });
     }
 
     public updateState = (): void => {
@@ -37,43 +38,38 @@ export class NavBarDropDown extends React.Component<
         }));
     };
 
-    private spawnUnit = (selectedUnitSize: string): void => {
-        const unit = selectedUnitSize as UnitSize;
-        polygonLayerPainter.setUnit(unit);
+    private spawnUnit = (selectedUnit: string, unitType: string): void => {
+        polygonLayerPainter.setUnit(selectedUnit);
+        const unitData = unitsRepositoryService.getUnit(selectedUnit, unitType);
 
         const polygon = polygonFactory
-            .createRectangle(getUnit(unit))
+            .createRectangle(unitData)
             .transform(Matrix.rotateXZ(0))
             .translate(new Vector(1500, 0, 250));
 
-        polygonRepository.push(polygon, getUnit(unit), unit);
+        polygonRepository.push(polygon, unitsRepositoryService.getUnit(selectedUnit, unitType));
     };
 
-    private getItemList(unitType: string): string[] {
-        return UNIT_CATEGORIES.get(unitType);
-    }
-
     public render(): React.ReactNode {
-        const listItems = this.getItemList(this.props.title);
+        const DataList = Array.from(this.state.list);
+
         return (
             <div>
                 <div className='dropdown' onMouseEnter={this.updateState}>
                     {this.props.title} ▼
                 </div>
                 {this.state.isHovered && (
-                    <div
-                        className='dropdown-content'
-                        onMouseLeave={this.updateState}
-                    >
+                    <div className='dropdown-content' onMouseLeave={this.updateState}>
                         <ul>
-                            {listItems.map((listItem) => {
+                            {DataList.map((listItem) => {
+                                const [id, data] = listItem;
                                 return (
                                     <li
                                         className='nav-link'
-                                        key={listItem}
-                                        onClick={() => this.spawnUnit(listItem)}
+                                        key={id}
+                                        onClick={() => this.spawnUnit(data.name, data.type)}
                                     >
-                                        {listItem.charAt(listItem.length - 1)}
+                                        {data.name}
                                     </li>
                                 );
                             })}

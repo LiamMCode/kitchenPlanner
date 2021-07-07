@@ -1,9 +1,8 @@
 import { PolygonPainter } from './PolygonPainter';
 import { PolygonRepository } from './PolygonRepository';
-import { UnitSize } from './PolygonFactory';
 
 export class PolygonLayerPainter {
-    private unit: UnitSize;
+    private unit: string;
 
     constructor(private repository: PolygonRepository, private painter: PolygonPainter) {}
 
@@ -14,7 +13,7 @@ export class PolygonLayerPainter {
         this.painter.paint(polygons, fillColours, borderColour);
     }
 
-    public setUnit(unitSize: UnitSize): void {
+    public setUnit(unitSize: string): void {
         this.unit = unitSize;
     }
 }

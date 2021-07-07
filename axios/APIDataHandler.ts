@@ -1,10 +1,6 @@
 import axios from 'axios';
 
-export function sendData(
-    fileName: string,
-    contents: string,
-    url: string
-): void {
+export function sendData(fileName: string, contents: string, url: string): void {
     const dataToSend = axios.create({
         baseURL: url,
         headers: {

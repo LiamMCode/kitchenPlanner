@@ -1,6 +1,6 @@
 import { Dimensions } from './Dimensions';
 import { UnitSize } from './PolygonFactory';
-import { UnitMapping, UnitStyle } from './UnitUtils';
+import { UnitMapping } from './UnitUtils';
 
 export const UNIT_CATEGORIES = new Map<string, UnitSize[]>([
     ['Wall Units', [UnitSize.WallSizeA, UnitSize.WallSizeB]],
@@ -72,7 +72,3 @@ export const UNIT_MAPPING: UnitMapping = {
         unitID: 1201,
     },
 };
-
-export function getUnit(unit: UnitSize): UnitStyle {
-    return UNIT_MAPPING[unit];
-}

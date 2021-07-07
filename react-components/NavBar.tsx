@@ -8,8 +8,7 @@ let customerEmail: string;
 
 export class NavBar extends React.Component<{}, {}> {
     public validateEmail(input: string): boolean {
-        var validRegex =
-            /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
         if (input.match(validRegex)) {
             return true;
@@ -64,27 +63,15 @@ export class NavBar extends React.Component<{}, {}> {
                         <NavBarDropDown title={'Decor Units'} />
                         <NavBarDropDown title={'Worktop Units'} />
 
-                        <li
-                            className='nav-link'
-                            id='NewPlan'
-                            onClick={this.newPlan}
-                        >
+                        <li className='nav-link' id='NewPlan' onClick={this.newPlan}>
                             New Plan
                         </li>
 
-                        <li
-                            className='nav-link'
-                            id='SavePlan'
-                            onClick={this.savePlan}
-                        >
+                        <li className='nav-link' id='SavePlan' onClick={this.savePlan}>
                             Save Plan
                         </li>
 
-                        <li
-                            className='nav-link'
-                            id='deleteUnit'
-                            onClick={this.deleteUnit}
-                        >
+                        <li className='nav-link' id='deleteUnit' onClick={this.deleteUnit}>
                             <i className='fa fa-trash-o'> Delete Unit</i>
                         </li>
                     </div>
