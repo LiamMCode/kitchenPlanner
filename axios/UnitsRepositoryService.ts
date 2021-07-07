@@ -3,12 +3,12 @@ import { UNIT_MAPPING } from 'app/canvas/UnitsMap';
 import { UnitStyle } from 'app/canvas/UnitUtils';
 import axios from 'axios';
 
-export interface dataStuff {
+export interface IncomingUnitData {
     type: string;
     name: string;
     fillColour: string;
     borderColour?: string;
-    dimensions: Dimensions;
+    dimensions: number[];
     // can extend to price if basket system gets implemented
     // price: Intl.NumberFormat('en-US', {
     //    style: 'currency',
@@ -16,16 +16,20 @@ export interface dataStuff {
     // });
 }
 
+export interface WidgetUnitData {
+    type: string;
+    name: string;
+    fillColour: string;
+    borderColour?: string;
+    dimensions: Dimensions;
+}
+
 class UnitsRepositoryService {
-    private BaseUnits: Map<string, dataStuff> = new Map();
-
-    private WallUnits: Map<string, dataStuff> = new Map();
-
-    private TowerUnits: Map<string, dataStuff> = new Map();
-
-    private DecorUnits: Map<string, dataStuff> = new Map();
-
-    private WorktopUnits: Map<string, dataStuff> = new Map();
+    private BaseUnits: Map<string, WidgetUnitData> = new Map();
+    private WallUnits: Map<string, WidgetUnitData> = new Map();
+    private TowerUnits: Map<string, WidgetUnitData> = new Map();
+    private DecorUnits: Map<string, WidgetUnitData> = new Map();
+    private WorktopUnits: Map<string, WidgetUnitData> = new Map();
 
     public async loadData() {
         await this.cacheUnits('https://symfony-sandbox.dev.wrenkitchens.com/data/units', 18);
@@ -46,33 +50,26 @@ class UnitsRepositoryService {
 
             allData.splice(listLength, allData.length - listLength);
 
-            allData.forEach((obj: dataStuff) => {
-                const id: number = allData.indexOf(obj);
-                let list;
+            allData.forEach((obj: IncomingUnitData) => {
                 switch (obj.type) {
                     case 'wall': {
-                        list = this.WallUnits;
-                        this.populateMaps(list, obj, id);
+                        this.populateMaps(this.WallUnits, obj);
                         break;
                     }
                     case 'base': {
-                        list = this.BaseUnits;
-                        this.populateMaps(list, obj, id);
+                        this.populateMaps(this.BaseUnits, obj);
                         break;
                     }
                     case 'tower': {
-                        list = this.TowerUnits;
-                        this.populateMaps(list, obj, id);
+                        this.populateMaps(this.TowerUnits, obj);
                         break;
                     }
                     case 'decor-end-panel': {
-                        list = this.DecorUnits;
-                        this.populateMaps(list, obj, id);
+                        this.populateMaps(this.DecorUnits, obj);
                         break;
                     }
                     case 'worktop': {
-                        list = this.WorktopUnits;
-                        this.populateMaps(list, obj, id);
+                        this.populateMaps(this.WorktopUnits, obj);
                         break;
                     }
                 }
@@ -80,13 +77,21 @@ class UnitsRepositoryService {
         });
     }
 
-    private populateMaps(list: Map<string, dataStuff>, obj: dataStuff, id: number) {
-        list.set(id.toString(), {
+    private populateMaps(list: Map<string, WidgetUnitData>, obj: IncomingUnitData): void {
+        const dimensionsArray = obj.dimensions;
+
+        const dimensions = new Dimensions(
+            dimensionsArray[0],
+            dimensionsArray[1],
+            dimensionsArray[2]
+        );
+
+        list.set(obj.name, {
             type: obj.type,
             name: obj.name,
-            fillColour: obj.fillColour,
-            borderColour: obj?.borderColour,
-            dimensions: obj.dimensions,
+            fillColour: `#${obj.fillColour}`,
+            borderColour: `#${obj.borderColour!}`,
+            dimensions,
         });
     }
 
@@ -113,7 +118,12 @@ class UnitsRepositoryService {
         }
     }
 
-    private backUpData(list: Map<string, dataStuff>, type: string, name: string, unit: UnitStyle) {
+    private backUpData(
+        list: Map<string, WidgetUnitData>,
+        type: string,
+        name: string,
+        unit: UnitStyle
+    ) {
         list.set(list.size.toString(), {
             type,
             name,
@@ -123,7 +133,7 @@ class UnitsRepositoryService {
         });
     }
 
-    public getList(type: string): Map<string, dataStuff> {
+    public getList(type: string): Map<string, WidgetUnitData> {
         switch (type) {
             case 'Base Units': {
                 return this.BaseUnits;
@@ -143,8 +153,8 @@ class UnitsRepositoryService {
         }
     }
 
-    public getUnit(name: string, type: string): dataStuff {
-        let unitData: dataStuff;
+    public getUnit(name: string, type: string): WidgetUnitData {
+        let unitData: IncomingUnitData;
 
         type = this.capitalizeFirstLetter(type);
         if (type === 'Decor-end-panel') {
@@ -153,14 +163,9 @@ class UnitsRepositoryService {
             type = type.concat(' Units');
         }
 
-        const listOfUnit = Array.from(this.getList(type));
-        listOfUnit.map((unit) => {
-            const [id, data] = unit;
-            if (data.name === name) {
-                unitData = data;
-            }
-        });
-        return unitData;
+        const unitMap = this.getList(type);
+
+        return unitMap.get(name);
     }
 
     private capitalizeFirstLetter(string: string) {

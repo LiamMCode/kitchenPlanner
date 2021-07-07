@@ -1,4 +1,4 @@
-import { dataStuff } from '../../axios/UnitsRepositoryService';
+import { WidgetUnitData } from '../../axios/UnitsRepositoryService';
 import { Point } from './Point';
 import { Polygon } from './Polygon';
 
@@ -16,13 +16,12 @@ export enum UnitSize {
 }
 
 export class PolygonFactory {
-    public createRectangle(unit: dataStuff): Polygon {
+    public createRectangle(unit: WidgetUnitData): Polygon {
         console.log(unit);
         const { dimensions } = unit;
-        console.log(dimensions);
 
-        const width = dimensions.getWidth();
         const height = dimensions.getHeight();
+        const width = dimensions.getWidth();
         const depth = dimensions.getDepth();
 
         const topLeft = new Point(0, height, depth);
@@ -30,6 +29,6 @@ export class PolygonFactory {
         const bottomRight = new Point(width, height, 0);
         const bottomLeft = new Point(0, height, 0);
 
-        return new Polygon(unit.dimensions, [topLeft, topRight, bottomRight, bottomLeft]);
+        return new Polygon(dimensions, [topLeft, topRight, bottomRight, bottomLeft]);
     }
 }

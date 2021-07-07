@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Matrix } from '../src/canvas/Matrix';
 import { Vector } from '../src/canvas/Vector';
 import { polygonLayerPainter, polygonFactory, polygonRepository } from '../index';
-import { dataStuff, unitsRepositoryService } from '../axios/UnitsRepositoryService';
+import { WidgetUnitData, unitsRepositoryService } from '../axios/UnitsRepositoryService';
 
 interface hoveredState {
     isHovered: boolean;
-    list: Map<string, dataStuff>;
+    list: Map<string, WidgetUnitData>;
 }
 
 interface UnitListBoxProps {
@@ -45,14 +45,13 @@ export class NavBarDropDown extends React.Component<UnitListBoxProps, hoveredSta
         const polygon = polygonFactory
             .createRectangle(unitData)
             .transform(Matrix.rotateXZ(0))
-            .translate(new Vector(1500, 0, 250));
+            .translate(new Vector(500, 0, 250));
 
         polygonRepository.push(polygon, unitsRepositoryService.getUnit(selectedUnit, unitType));
     };
 
     public render(): React.ReactNode {
         const DataList = Array.from(this.state.list);
-
         return (
             <div>
                 <div className='dropdown' onMouseEnter={this.updateState}>

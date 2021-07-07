@@ -23,6 +23,6 @@ export class AxisAlignedBoundingBox {
     public getSelectedPolygon(mousePosition: Point, polygon: Polygon): boolean {
         const polygonPoints = polygon.getPoints();
 
-        return mousePosition.gte(polygonPoints[3]) && mousePosition.lte(polygonPoints[1]);
+        return mousePosition.gte(polygonPoints[2]) && mousePosition.lte(polygonPoints[1]);
     }
 }

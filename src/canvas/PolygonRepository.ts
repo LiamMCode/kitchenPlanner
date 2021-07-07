@@ -1,4 +1,4 @@
-import { dataStuff } from 'app/../axios/UnitsRepositoryService';
+import { WidgetUnitData } from 'app/../axios/UnitsRepositoryService';
 import { Dimensions } from './Dimensions';
 import { Point } from './Point';
 import { Polygon } from './Polygon';
@@ -6,11 +6,8 @@ import { sendData } from '../../axios/APIDataHandler';
 
 export class PolygonRepository {
     private polygons: Polygon[] = [];
-
     private polygonFillColours: string[] = [];
-
     private polygonBorderColours: string[] = [];
-
     private unitsCreated: string[] = [];
 
     public findAll(): Polygon[] {
@@ -34,7 +31,7 @@ export class PolygonRepository {
         return this.unitsCreated[index];
     }
 
-    public push(polygon: Polygon, unit: dataStuff): void {
+    public push(polygon: Polygon, unit: WidgetUnitData): void {
         this.polygons.push(polygon);
         this.polygonFillColours.push(unit.fillColour);
         this.polygonBorderColours.push(unit.borderColour);
