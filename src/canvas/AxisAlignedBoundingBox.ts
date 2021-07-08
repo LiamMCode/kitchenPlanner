@@ -1,5 +1,5 @@
 import { Point } from './Point';
-import { Polygon } from './Polygon';
+import { Widget } from './Widget';
 
 export class AxisAlignedBoundingBox {
     constructor(private min: Point, private max: Point) {}
@@ -20,8 +20,8 @@ export class AxisAlignedBoundingBox {
         return this.max.getZ();
     }
 
-    public getSelectedPolygon(mousePosition: Point, polygon: Polygon): boolean {
-        const polygonPoints = polygon.getPoints();
+    public getSelectedPolygon(mousePosition: Point, widget: Widget): boolean {
+        const polygonPoints = widget.getPolygon().getPoints();
         return mousePosition.gte(polygonPoints[3]) && mousePosition.lte(polygonPoints[1]);
     }
 }

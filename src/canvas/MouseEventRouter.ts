@@ -1,11 +1,10 @@
 import { Camera } from './Camera';
 import { Point } from './Point';
-import { Polygon } from './Polygon';
 import { PolygonRepository } from './PolygonRepository';
+import { Widget } from './Widget';
 
 export class MouseEventRouter {
-    private lastSelectedPolygon: Polygon | undefined;
-
+    private lastselectedWidget: Widget | undefined;
     private oldMousePosition: Point;
 
     constructor(private camera: Camera, private polygonRepository: PolygonRepository) {}
@@ -31,41 +30,38 @@ export class MouseEventRouter {
     }
 
     public onMouseDown(position: Point): void {
-        const allPolygons = this.polygonRepository.findAll();
+        const allWidgets = this.polygonRepository.findAll();
 
-        allPolygons.forEach((polygon) => {
-            const boundingBox = polygon.getBoundingBox(this.camera);
-            polygon.setSelected(boundingBox.getSelectedPolygon(position, polygon));
+        allWidgets.forEach((widget) => {
+            const boundingBox = widget.getBoundingBox(this.camera);
+            widget.setSelected(boundingBox.getSelectedPolygon(position, widget));
         });
     }
 
     public onMouseMove(position: Point): void {
-        const selectedPolygon = this.polygonRepository.getSelectedPolygon();
+        const selectedWidget = this.polygonRepository.getSelectedPolygon();
 
-        if (selectedPolygon) {
+        if (selectedWidget) {
             const mousePositionDifference = position
                 .toVector()
                 .subtract(this.oldMousePosition.toVector());
 
-            const translation = selectedPolygon.translate(mousePositionDifference);
-            selectedPolygon.setPoints(translation.getPoints());
+            const polygon = selectedWidget.getPolygon();
+            const translation = polygon.translate(mousePositionDifference);
+            polygon.setPoints(translation.getPoints());
+            this.lastselectedWidget = selectedWidget;
         }
-
         this.oldMousePosition = position;
     }
 
     public onMouseUp(): void {
-        const selectedPolygon = this.polygonRepository.getSelectedPolygon();
-        if (selectedPolygon) {
-            this.lastSelectedPolygon = selectedPolygon;
-            this.polygonRepository.findAll().forEach((polygon) => polygon.setSelected(false));
-        }
+        this.polygonRepository.findAll().forEach((polygon) => polygon.setSelected(false));
     }
 
     public onDeleteEvent(): void {
-        if (this.lastSelectedPolygon) {
-            this.polygonRepository.deletePolygon(this.lastSelectedPolygon);
-            this.lastSelectedPolygon = undefined;
+        if (this.lastselectedWidget) {
+            this.polygonRepository.deletePolygon(this.lastselectedWidget.getId());
+            this.lastselectedWidget = undefined;
         }
     }
 }

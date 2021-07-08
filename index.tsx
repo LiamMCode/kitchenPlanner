@@ -1,7 +1,6 @@
 import { Camera } from './src/canvas/Camera';
 import { GridLayerPainter } from './src/canvas/GridLayerPainter';
 import { MouseEventRouter } from './src/canvas/MouseEventRouter';
-import { PolygonFactory } from './src/canvas/PolygonFactory';
 import { PolygonLayerPainter } from './src/canvas/PolygonLayerPainter';
 import { PolygonPainter } from './src/canvas/PolygonPainter';
 import { PolygonRepository } from './src/canvas/PolygonRepository';
@@ -24,15 +23,13 @@ const camera = new Camera();
 
 const renderingContext = new RenderingContext(
     canvas.getContext('2d') as CanvasRenderingContext2D,
-    camera
+    camera,
 );
 const gridLayerPainter = new GridLayerPainter(renderingContext);
 const polygonPainter = new PolygonPainter(renderingContext);
 export const polygonRepository = new PolygonRepository();
 
 export const polygonLayerPainter = new PolygonLayerPainter(polygonRepository, polygonPainter);
-
-export const polygonFactory = new PolygonFactory();
 
 export const mouseEventRouter = new MouseEventRouter(camera, polygonRepository);
 mouseEventRouter.register(document);

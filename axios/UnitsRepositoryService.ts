@@ -1,6 +1,7 @@
 import { Dimensions } from 'app/canvas/Dimensions';
 import { UNIT_MAPPING } from 'app/canvas/UnitsMap';
 import { UnitStyle } from 'app/canvas/UnitUtils';
+import { WidgetStyle } from 'app/canvas/Widget';
 import axios from 'axios';
 
 export interface IncomingUnitData {
@@ -19,8 +20,7 @@ export interface IncomingUnitData {
 export interface WidgetUnitData {
     type: string;
     name: string;
-    fillColour: string;
-    borderColour?: string;
+    widgetStyle: WidgetStyle;
     dimensions: Dimensions;
 }
 
@@ -32,15 +32,11 @@ class UnitsRepositoryService {
     private WorktopUnits: Map<string, WidgetUnitData> = new Map();
 
     public async loadData() {
-        await this.cacheUnits('https://symfony-sandbox.dev.wrenkitchens.com/data/units', 18);
+        const baseUrl = 'https://symfony-sandbox.dev.wrenkitchens.com/data';
 
-        await this.cacheUnits(
-            'https://symfony-sandbox.dev.wrenkitchens.com/data/decor-end-panels',
-            5
-        );
-
-        await this.cacheUnits('https://symfony-sandbox.dev.wrenkitchens.com/data/worktops', 5);
-
+        await this.cacheUnits(`${baseUrl}/units`, 49);
+        await this.cacheUnits(`${baseUrl}/decor-end-panels`, 5);
+        await this.cacheUnits(`${baseUrl}/worktops`, 5);
         await this.fallBackData();
     }
 
@@ -83,14 +79,16 @@ class UnitsRepositoryService {
         const dimensions = new Dimensions(
             dimensionsArray[0],
             dimensionsArray[1],
-            dimensionsArray[2]
+            dimensionsArray[2],
         );
 
         list.set(obj.name, {
             type: obj.type,
             name: obj.name,
-            fillColour: `#${obj.fillColour}`,
-            borderColour: `#${obj.borderColour!}`,
+            widgetStyle: {
+                fillColour: `#${obj.fillColour}`,
+                borderColour: `#${obj.borderColour!}`,
+            },
             dimensions,
         });
     }
@@ -122,13 +120,15 @@ class UnitsRepositoryService {
         list: Map<string, WidgetUnitData>,
         type: string,
         name: string,
-        unit: UnitStyle
+        unit: UnitStyle,
     ) {
         list.set(list.size.toString(), {
             type,
             name,
-            fillColour: unit.fillColour,
-            borderColour: unit.borderColour,
+            widgetStyle: {
+                fillColour: unit.fillColour,
+                borderColour: unit.borderColour,
+            },
             dimensions: unit.dimensions,
         });
     }
@@ -142,6 +142,7 @@ class UnitsRepositoryService {
                 return this.WallUnits;
             }
             case 'Tower Units': {
+                console.log(this.TowerUnits);
                 return this.TowerUnits;
             }
             case 'Decor Units': {
@@ -154,8 +155,6 @@ class UnitsRepositoryService {
     }
 
     public getUnit(name: string, type: string): WidgetUnitData {
-        let unitData: IncomingUnitData;
-
         type = this.capitalizeFirstLetter(type);
         if (type === 'Decor-end-panel') {
             type = 'Decor Units';
@@ -163,9 +162,8 @@ class UnitsRepositoryService {
             type = type.concat(' Units');
         }
 
-        const unitMap = this.getList(type);
-
-        return unitMap.get(name);
+        const units = this.getList(type);
+        return units.get(name);
     }
 
     private capitalizeFirstLetter(string: string) {

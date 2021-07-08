@@ -1,93 +1,38 @@
-import { WidgetUnitData } from 'app/../axios/UnitsRepositoryService';
-import { Dimensions } from './Dimensions';
-import { Point } from './Point';
-import { Polygon } from './Polygon';
-import { sendData } from '../../axios/APIDataHandler';
+import { Widget } from './Widget';
+
+export enum UnitSize {
+    WallSizeA = 'WallSizeA',
+    WallSizeB = 'WallSizeB',
+    BaseSizeA = 'BaseSizeA',
+    BaseSizeB = 'BaseSizeB',
+    TowerSizeA = 'TowerSizeA',
+    TowerSizeB = 'TowerSizeB',
+    DecorSizeA = 'DecorSizeA',
+    DecorSizeB = 'DecorSizeB',
+    WorktopSizeA = 'WorktopSizeA',
+    WorktopSizeB = 'WorktopSizeB',
+}
 
 export class PolygonRepository {
-    private polygons: Polygon[] = [];
-    private polygonFillColours: string[] = [];
-    private polygonBorderColours: string[] = [];
-    private unitsCreated: string[] = [];
+    private widgets: Widget[] = [];
 
-    public findAll(): Polygon[] {
-        return this.polygons;
+    public findAll(): Widget[] {
+        return this.widgets;
     }
 
-    public findFillColours(): string[] {
-        return this.polygonFillColours;
+    public push(widget: Widget): void {
+        this.widgets.push(widget);
     }
 
-    public findBorderColours(): string[] {
-        return this.polygonBorderColours;
+    public deletePolygon(id: string): void {
+        this.widgets = this.widgets.filter((widget) => widget.getId() !== id);
     }
 
-    public findUnitsCreated(): string[] {
-        return this.unitsCreated;
-    }
-
-    public findUnitByPolygon(polygon: Polygon): string {
-        const index = this.polygons.indexOf(polygon);
-        return this.unitsCreated[index];
-    }
-
-    public push(polygon: Polygon, unit: WidgetUnitData): void {
-        this.polygons.push(polygon);
-        this.polygonFillColours.push(unit.fillColour);
-        this.polygonBorderColours.push(unit.borderColour);
-        this.unitsCreated.push(unit.name);
-    }
-
-    public deletePolygon(polygonMoved: Polygon): void {
-        const movedIndex = this.polygons.indexOf(polygonMoved);
-        this.polygons.splice(movedIndex, 1);
-        this.polygonFillColours.splice(movedIndex, 1);
-        this.polygonBorderColours.splice(movedIndex, 1);
-        this.unitsCreated.splice(movedIndex, 1);
-    }
-
-    public getSelectedPolygon(): Polygon {
-        return this.polygons.find((polygon) => polygon.isSelected());
+    public getSelectedPolygon(): Widget {
+        return this.widgets.find((widget) => widget.isSelected());
     }
 
     public deleteAll(): void {
-        this.polygons = [];
-        this.polygonFillColours = [];
-        this.polygonBorderColours = [];
-        this.unitsCreated = [];
-    }
-
-    public saveAndSerialise(name: string, email: string): void {
-        const planPolygons: {
-            polygonDimensions: Dimensions;
-            polygonFill: string;
-            polygonBorder: string;
-            polygonPosition: Point[];
-        }[] = [];
-
-        this.polygons.forEach((polygon) => {
-            const dimensions = polygon.getDimensions();
-            const position = polygon.getPoints();
-
-            const index = this.polygons.indexOf(polygon);
-            const fillColour = this.polygonFillColours[index];
-            const borderColour = this.polygonBorderColours[index];
-
-            const polygonMap = {
-                polygonDimensions: dimensions,
-                polygonFill: fillColour,
-                polygonBorder: borderColour,
-                polygonPosition: position,
-            };
-            planPolygons.push(polygonMap);
-        });
-        const jsonSavedPlan: string = JSON.stringify(planPolygons);
-        const jsonEmail: string = JSON.stringify(email);
-        const jsonPlanName: string = JSON.stringify(name);
-
-        const fileName = `${jsonPlanName}.json`;
-        const contents = `${jsonEmail}\n${jsonSavedPlan}`;
-        const url = 'http://SomeURLHERE';
-        sendData(fileName, contents, url);
+        this.widgets = [];
     }
 }

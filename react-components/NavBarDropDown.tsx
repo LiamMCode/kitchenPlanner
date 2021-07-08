@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Matrix } from '../src/canvas/Matrix';
-import { Vector } from '../src/canvas/Vector';
-import { polygonLayerPainter, polygonFactory, polygonRepository } from '../index';
+import { polygonRepository } from '../index';
 import { WidgetUnitData, unitsRepositoryService } from '../axios/UnitsRepositoryService';
+import { Widget } from 'app/canvas/Widget';
 
 interface hoveredState {
     isHovered: boolean;
@@ -14,16 +13,10 @@ interface UnitListBoxProps {
 }
 
 export class NavBarDropDown extends React.Component<UnitListBoxProps, hoveredState> {
-    public state: hoveredState;
-
-    constructor(props: UnitListBoxProps) {
-        super(props);
-
-        this.state = {
-            isHovered: false,
-            list: new Map(),
-        };
-    }
+    public state: hoveredState = {
+        isHovered: false,
+        list: new Map(),
+    };
 
     public async componentDidMount() {
         this.setState({
@@ -39,15 +32,10 @@ export class NavBarDropDown extends React.Component<UnitListBoxProps, hoveredSta
     };
 
     private spawnUnit = (selectedUnit: string, unitType: string): void => {
-        polygonLayerPainter.setUnit(selectedUnit);
-        const unitData = unitsRepositoryService.getUnit(selectedUnit, unitType);
+        const { dimensions, widgetStyle } = unitsRepositoryService.getUnit(selectedUnit, unitType);
+        const widget = new Widget(selectedUnit, dimensions, widgetStyle);
 
-        const polygon = polygonFactory
-            .createRectangle(unitData)
-            .transform(Matrix.rotateXZ(0))
-            .translate(new Vector(500, 0, 250));
-
-        polygonRepository.push(polygon, unitsRepositoryService.getUnit(selectedUnit, unitType));
+        polygonRepository.push(widget);
     };
 
     public render(): React.ReactNode {
@@ -61,14 +49,15 @@ export class NavBarDropDown extends React.Component<UnitListBoxProps, hoveredSta
                     <div className='dropdown-content' onMouseLeave={this.updateState}>
                         <ul>
                             {DataList.map((listItem) => {
-                                const [id, data] = listItem;
+                                const [id, unitData] = listItem;
                                 return (
                                     <li
                                         className='nav-link'
+                                        style={{ padding: '0px' }}
                                         key={id}
-                                        onClick={() => this.spawnUnit(data.name, data.type)}
+                                        onClick={() => this.spawnUnit(unitData.name, unitData.type)}
                                     >
-                                        {data.name}
+                                        {unitData.name}
                                     </li>
                                 );
                             })}

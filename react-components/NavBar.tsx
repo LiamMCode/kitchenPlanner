@@ -3,30 +3,26 @@ import '../css/index.css';
 import { polygonRepository, mouseEventRouter } from '../index';
 import { NavBarDropDown } from './NavBarDropDown';
 
-let planName: string;
-let customerEmail: string;
-
 export class NavBar extends React.Component<{}, {}> {
     public validateEmail(input: string): boolean {
         var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-        if (input.match(validRegex)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Boolean(input.match(validRegex));
     }
 
     public savePlanPrompts(): void {
+        let planName: string;
+        let customerEmail: string;
+
         planName = prompt('Please Enter a name for the plan');
-        if (planName === '') {
+        if (planName.trim() === '') {
             alert('please enter a plan name');
         } else {
             customerEmail = prompt('Please enter the customers Email');
-            if (this.validateEmail(customerEmail) === false) {
+            if (!this.validateEmail(customerEmail)) {
                 alert('please enter a valid email address');
             } else {
-                polygonRepository.saveAndSerialise(planName, customerEmail);
+                // polygonRepository.saveAndSerialise(planName, customerEmail);
             }
         }
     }
@@ -43,12 +39,12 @@ export class NavBar extends React.Component<{}, {}> {
         }
     };
 
-    public savePlan = () => {
+    private savePlan = (): void => {
         this.savePlanPrompts();
-        polygonRepository.saveAndSerialise(planName, customerEmail);
+        // polygonRepository.saveAndSerialise(planName, customerEmail);
     };
 
-    public deleteUnit = () => {
+    private deleteUnit = (): void => {
         mouseEventRouter.onDeleteEvent();
     };
 
