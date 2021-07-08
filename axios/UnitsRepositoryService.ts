@@ -1,7 +1,7 @@
 import { Dimensions } from 'app/canvas/Dimensions';
 import { UNIT_MAPPING } from 'app/canvas/UnitsMap';
 import { UnitStyle } from 'app/canvas/UnitUtils';
-import { WidgetStyle } from 'app/canvas/Widget';
+import { WidgetStyle } from '../src/canvas/UnitUtils';
 import axios from 'axios';
 
 export interface IncomingUnitData {
@@ -126,8 +126,8 @@ class UnitsRepositoryService {
             type,
             name,
             widgetStyle: {
-                fillColour: unit.fillColour,
-                borderColour: unit.borderColour,
+                fillColour: unit.widgetStyle.fillColour,
+                borderColour: unit.widgetStyle.borderColour,
             },
             dimensions: unit.dimensions,
         });
@@ -142,7 +142,6 @@ class UnitsRepositoryService {
                 return this.WallUnits;
             }
             case 'Tower Units': {
-                console.log(this.TowerUnits);
                 return this.TowerUnits;
             }
             case 'Decor Units': {

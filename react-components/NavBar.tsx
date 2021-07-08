@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../css/index.css';
-import { polygonRepository, mouseEventRouter } from '../index';
+import { widgetRepository, mouseEventRouter } from '../index';
 import { NavBarDropDown } from './NavBarDropDown';
 
 export class NavBar extends React.Component<{}, {}> {
@@ -22,7 +22,7 @@ export class NavBar extends React.Component<{}, {}> {
             if (!this.validateEmail(customerEmail)) {
                 alert('please enter a valid email address');
             } else {
-                // polygonRepository.saveAndSerialise(planName, customerEmail);
+                // WidgetRepository.saveAndSerialise(planName, customerEmail);
             }
         }
     }
@@ -33,15 +33,15 @@ export class NavBar extends React.Component<{}, {}> {
         if (confirm(newPlanString)) {
             if (confirm('Would you like to save the current plan')) {
                 this.savePlanPrompts();
-                polygonRepository.deleteAll();
+                widgetRepository.deleteAll();
             }
-            polygonRepository.deleteAll();
+            widgetRepository.deleteAll();
         }
     };
 
     private savePlan = (): void => {
         this.savePlanPrompts();
-        // polygonRepository.saveAndSerialise(planName, customerEmail);
+        // WidgetRepository.saveAndSerialise(planName, customerEmail);
     };
 
     private deleteUnit = (): void => {

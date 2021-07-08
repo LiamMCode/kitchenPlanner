@@ -3,7 +3,7 @@ import { GridLayerPainter } from './src/canvas/GridLayerPainter';
 import { MouseEventRouter } from './src/canvas/MouseEventRouter';
 import { PolygonLayerPainter } from './src/canvas/PolygonLayerPainter';
 import { PolygonPainter } from './src/canvas/PolygonPainter';
-import { PolygonRepository } from './src/canvas/PolygonRepository';
+import { WidgetRepository } from './src/canvas/WidgetRepository';
 import { RenderingContext } from './src/canvas/RenderingContext';
 import { WorldPainter } from './src/canvas/WorldPainter';
 import * as React from 'react';
@@ -27,11 +27,11 @@ const renderingContext = new RenderingContext(
 );
 const gridLayerPainter = new GridLayerPainter(renderingContext);
 const polygonPainter = new PolygonPainter(renderingContext);
-export const polygonRepository = new PolygonRepository();
+export const widgetRepository = new WidgetRepository();
 
-export const polygonLayerPainter = new PolygonLayerPainter(polygonRepository, polygonPainter);
+export const polygonLayerPainter = new PolygonLayerPainter(widgetRepository, polygonPainter);
 
-export const mouseEventRouter = new MouseEventRouter(camera, polygonRepository);
+export const mouseEventRouter = new MouseEventRouter(camera, widgetRepository);
 mouseEventRouter.register(document);
 
 const worldPainter = new WorldPainter(renderingContext, [gridLayerPainter, polygonLayerPainter]);

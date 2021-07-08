@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { polygonRepository } from '../index';
+import { widgetRepository } from '../index';
 import { WidgetUnitData, unitsRepositoryService } from '../axios/UnitsRepositoryService';
 import { Widget } from 'app/canvas/Widget';
 
@@ -35,7 +35,7 @@ export class NavBarDropDown extends React.Component<UnitListBoxProps, hoveredSta
         const { dimensions, widgetStyle } = unitsRepositoryService.getUnit(selectedUnit, unitType);
         const widget = new Widget(selectedUnit, dimensions, widgetStyle);
 
-        polygonRepository.push(widget);
+        widgetRepository.add(widget);
     };
 
     public render(): React.ReactNode {

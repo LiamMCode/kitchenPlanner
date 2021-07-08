@@ -1,9 +1,16 @@
 import { Dimensions } from './Dimensions';
-import { UnitSize } from './PolygonRepository';
+import { UnitSize } from './WidgetRepository';
+
+export interface WidgetStyle {
+    fillColour: string;
+    borderColour: string;
+}
 
 export interface UnitStyle {
-    borderColour: string;
-    fillColour: string;
+    widgetStyle: {
+        borderColour: string;
+        fillColour: string;
+    };
     dimensions: Dimensions;
     unitID: number;
 }

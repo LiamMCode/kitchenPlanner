@@ -3,11 +3,7 @@ import { Camera } from './Camera';
 import { Dimensions } from './Dimensions';
 import { Point } from './Point';
 import { Polygon } from './Polygon';
-
-export interface WidgetStyle {
-    fillColour: string;
-    borderColour: string;
-}
+import { WidgetStyle } from './UnitUtils';
 
 export class Widget {
     private polygon: Polygon;
