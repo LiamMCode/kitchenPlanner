@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { widgetRepository } from '../index';
 import { WidgetUnitData, unitsRepositoryService } from '../axios/UnitsRepositoryService';
-import { Widget } from 'app/canvas/Widget';
+import { Widget } from '../src/canvas/Widget';
 
 interface hoveredState {
     isHovered: boolean;
@@ -33,7 +33,7 @@ export class NavBarDropDown extends React.Component<UnitListBoxProps, hoveredSta
 
     private spawnUnit = (selectedUnit: string, unitType: string): void => {
         const { dimensions, widgetStyle } = unitsRepositoryService.getUnit(selectedUnit, unitType);
-        const widget = new Widget(selectedUnit, dimensions, widgetStyle);
+        const widget = new Widget(unitType, selectedUnit, dimensions, widgetStyle);
 
         widgetRepository.add(widget);
     };

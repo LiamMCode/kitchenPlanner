@@ -2,6 +2,7 @@ import { Camera } from './Camera';
 import { Point } from './Point';
 import { WidgetRepository } from './WidgetRepository';
 import { Widget } from './Widget';
+import { Matrix } from './Matrix';
 
 export class MouseEventRouter {
     private lastSelectedWidget: Widget | undefined;
@@ -62,6 +63,25 @@ export class MouseEventRouter {
         if (this.lastSelectedWidget) {
             this.WidgetRepository.deletePolygon(this.lastSelectedWidget.getId());
             this.lastSelectedWidget = undefined;
+        }
+    }
+    public onRotate(rotation: number): void {
+        if (this.lastSelectedWidget) {
+            const radian = (Math.PI * rotation) / 180.0;
+            const newWidgetPosition = this.lastSelectedWidget
+                .getPolygon()
+                .transform(Matrix.rotateXZ(radian));
+
+            const translation = newWidgetPosition.translate(
+                this.lastSelectedWidget
+                    .getPolygon()
+                    .getCentre()
+                    .toVector()
+                    .subtract(newWidgetPosition.getCentre().toVector()),
+            );
+            console.log(this.lastSelectedWidget.getPolygon().getPoints());
+            this.lastSelectedWidget.getPolygon().setPoints(translation.getPoints());
+            console.log(this.lastSelectedWidget.getBoundingBox(this.camera));
         }
     }
 }

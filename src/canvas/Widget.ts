@@ -10,6 +10,7 @@ export class Widget {
     private selected: boolean;
 
     constructor(
+        private type: string,
         private id: string,
         private dimensions: Dimensions,
         private widgetStyles: WidgetStyle,
@@ -27,6 +28,10 @@ export class Widget {
 
     public getId(): string {
         return this.id;
+    }
+
+    public getType(): string {
+        return this.type;
     }
 
     public getDimensions(): Dimensions {

@@ -5,7 +5,7 @@ export class Point {
     constructor(
         private readonly x: number,
         private readonly y: number,
-        private readonly z: number
+        private readonly z: number,
     ) {}
 
     public getX(): number {

@@ -4,6 +4,9 @@ import { widgetRepository, mouseEventRouter } from '../index';
 import { NavBarDropDown } from './NavBarDropDown';
 
 export class NavBar extends React.Component<{}, {}> {
+    private planName: string;
+    private customerEmail: string;
+
     public validateEmail(input: string): boolean {
         var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -11,18 +14,15 @@ export class NavBar extends React.Component<{}, {}> {
     }
 
     public savePlanPrompts(): void {
-        let planName: string;
-        let customerEmail: string;
-
-        planName = prompt('Please Enter a name for the plan');
-        if (planName.trim() === '') {
+        this.planName = prompt('Please Enter a name for the plan');
+        if (this.planName.trim() === '') {
             alert('please enter a plan name');
         } else {
-            customerEmail = prompt('Please enter the customers Email');
-            if (!this.validateEmail(customerEmail)) {
+            this.customerEmail = prompt('Please enter the customers Email');
+            if (!this.validateEmail(this.customerEmail)) {
                 alert('please enter a valid email address');
             } else {
-                // WidgetRepository.saveAndSerialise(planName, customerEmail);
+                widgetRepository.saveAndSerialise(this.planName, this.customerEmail);
             }
         }
     }
@@ -41,11 +41,15 @@ export class NavBar extends React.Component<{}, {}> {
 
     private savePlan = (): void => {
         this.savePlanPrompts();
-        // WidgetRepository.saveAndSerialise(planName, customerEmail);
+        widgetRepository.saveAndSerialise(this.planName, this.customerEmail);
     };
 
     private deleteUnit = (): void => {
         mouseEventRouter.onDeleteEvent();
+    };
+
+    private rotate = (rotation: number): void => {
+        mouseEventRouter.onRotate(rotation);
     };
 
     public render(): React.ReactNode {
@@ -69,6 +73,14 @@ export class NavBar extends React.Component<{}, {}> {
 
                         <li className='nav-link' id='deleteUnit' onClick={this.deleteUnit}>
                             <i className='fa fa-trash-o'> Delete Unit</i>
+                        </li>
+
+                        <li className='nav-link' id='rotationPlus' onClick={() => this.rotate(45)}>
+                            <i className='fa fa-plus'> Rotate Clockwise</i>
+                        </li>
+
+                        <li className='nav-link' id='rotationPlus' onClick={() => this.rotate(-45)}>
+                            <i className='fa fa-minus'> Rotate AntiClockwise</i>
                         </li>
                     </div>
                 </nav>

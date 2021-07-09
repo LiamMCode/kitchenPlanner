@@ -4,7 +4,7 @@ export class Vector {
     constructor(
         private readonly x: number,
         private readonly y: number,
-        private readonly z: number
+        private readonly z: number,
     ) {}
 
     public static zero(): Vector {
@@ -71,7 +71,7 @@ export class Vector {
         return new Vector(
             this.y * vector.z - this.z * vector.y,
             this.z * vector.x - this.x * vector.z,
-            this.x * vector.y - this.y * vector.x
+            this.x * vector.y - this.y * vector.x,
         );
     }
 
