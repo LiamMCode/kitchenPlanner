@@ -20,8 +20,16 @@ export class AxisAlignedBoundingBox {
         return this.max.getZ();
     }
 
-    public getSelectedPolygon(mousePosition: Point, widget: Widget): boolean {
+    public getSelectedPolygon(
+        mousePosition: Point,
+        widget: Widget,
+        pointsWithin: number[],
+    ): boolean {
         const polygonPoints = widget.getPolygon().getPoints();
-        return mousePosition.gte(polygonPoints[3]) && mousePosition.lte(polygonPoints[1]);
+        console.log(pointsWithin);
+        return (
+            mousePosition.gte(polygonPoints[pointsWithin[0]]) &&
+            mousePosition.lte(polygonPoints[pointsWithin[1]])
+        );
     }
 }

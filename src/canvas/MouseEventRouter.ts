@@ -1,12 +1,13 @@
 import { Camera } from './Camera';
 import { Point } from './Point';
 import { WidgetRepository } from './WidgetRepository';
-import { Widget } from './Widget';
+import { Widget } from 'canvas/Widget';
 import { Matrix } from './Matrix';
 
 export class MouseEventRouter {
     private lastSelectedWidget: Widget | undefined;
     private oldMousePosition: Point;
+    private pointsWithin: number[];
 
     constructor(private camera: Camera, private WidgetRepository: WidgetRepository) {}
 
@@ -32,10 +33,25 @@ export class MouseEventRouter {
 
     public onMouseDown(position: Point): void {
         const allWidgets = this.WidgetRepository.getWidgets();
+        let polygonRotation: number;
 
         allWidgets.forEach((widget) => {
             const boundingBox = widget.getBoundingBox(this.camera);
-            widget.setSelected(boundingBox.getSelectedPolygon(position, widget));
+            polygonRotation = widget.getPolygon().getRotation();
+
+            console.log(polygonRotation, widget.getPolygon().getRotation());
+            if (polygonRotation === 360 || polygonRotation === -360) {
+                widget.getPolygon().resetRotation();
+                polygonRotation = 0;
+            }
+
+            console.log(polygonRotation, widget.getPolygon().getRotation());
+            if (polygonRotation < 360 && polygonRotation > -360) {
+                this.pointsWithin = this.calculateMinMax(polygonRotation);
+                widget.setSelected(
+                    boundingBox.getSelectedPolygon(position, widget, this.pointsWithin),
+                );
+            }
         });
     }
 
@@ -72,6 +88,8 @@ export class MouseEventRouter {
                 .getPolygon()
                 .transform(Matrix.rotateXZ(radian));
 
+            this.lastSelectedWidget.getPolygon().setRotation(rotation);
+
             const translation = newWidgetPosition.translate(
                 this.lastSelectedWidget
                     .getPolygon()
@@ -79,9 +97,38 @@ export class MouseEventRouter {
                     .toVector()
                     .subtract(newWidgetPosition.getCentre().toVector()),
             );
-            console.log(this.lastSelectedWidget.getPolygon().getPoints());
             this.lastSelectedWidget.getPolygon().setPoints(translation.getPoints());
-            console.log(this.lastSelectedWidget.getBoundingBox(this.camera));
+        }
+    }
+    public calculateMinMax(polygonRotation: number): number[] {
+        switch (polygonRotation) {
+            case 0:
+            case 45:
+            case -315: {
+                return [3, 1];
+            }
+            case 90:
+            case -270:
+            case 315:
+            case -45: {
+                return [0, 2];
+            }
+            case 135:
+            case -225: {
+                // can't move
+                return [3, 2];
+            }
+            case 180:
+            case -180:
+            case 225:
+            case -135: {
+                // cant move 225 -135
+                return [1, 3];
+            }
+            case 270:
+            case -90: {
+                return [2, 0];
+            }
         }
     }
 }

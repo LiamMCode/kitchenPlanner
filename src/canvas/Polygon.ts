@@ -4,6 +4,8 @@ import { Point } from './Point';
 import { Vector } from './Vector';
 
 export class Polygon {
+    private rotation: number = 0;
+
     constructor(private dimensions: Dimensions, private points: Point[]) {}
 
     public translate(vector: Vector): Polygon {
@@ -39,5 +41,18 @@ export class Polygon {
 
     public getTail(): Point[] {
         return this.points.slice(1);
+    }
+
+    public resetRotation(): void {
+        this.rotation = 0;
+    }
+
+    public setRotation(rotation: number): void {
+        console.log(rotation);
+        this.rotation += rotation;
+    }
+
+    public getRotation(): number {
+        return this.rotation;
     }
 }

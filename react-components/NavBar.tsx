@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { getData } from '../axios/APIDataHandler';
 import '../css/index.css';
 import { widgetRepository, mouseEventRouter } from '../index';
 import { NavBarDropDown } from './NavBarDropDown';
@@ -48,6 +49,26 @@ export class NavBar extends React.Component<{}, {}> {
         mouseEventRouter.onDeleteEvent();
     };
 
+    private loadPlan = (): void => {
+        const file = prompt('Enter the filename of the plan');
+        if (file === '') {
+            alert('this is not a valid plan name please try again');
+        } else {
+            const email = prompt('Enter the customers email address');
+
+            if (this.validateEmail(email)) {
+                const url =
+                    'https://symfony-sandbox.dev.wrenkitchens.com/data/saved-plans?username=' +
+                    email +
+                    '&filename=' +
+                    file;
+                getData(url);
+            } else {
+                alert('this is not a valid email address please try again');
+            }
+        }
+    };
+
     private rotate = (rotation: number): void => {
         mouseEventRouter.onRotate(rotation);
     };
@@ -69,6 +90,10 @@ export class NavBar extends React.Component<{}, {}> {
 
                         <li className='nav-link' id='SavePlan' onClick={this.savePlan}>
                             Save Plan
+                        </li>
+
+                        <li className='nav-link' id='LoadPlan' onClick={this.loadPlan}>
+                            Load Plan
                         </li>
 
                         <li className='nav-link' id='deleteUnit' onClick={this.deleteUnit}>

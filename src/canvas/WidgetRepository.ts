@@ -22,6 +22,7 @@ interface DataToSend {
     widgetStyle: WidgetStyle;
     widgetPosition: Point[];
     widgetType: string;
+    widgetName: string;
 }
 
 export class WidgetRepository {
@@ -50,10 +51,11 @@ export class WidgetRepository {
     public saveAndSerialise(name: string, email: string): void {
         const widgetsOnPlan: DataToSend[] = this.widgets.map((widget) => {
             return {
-                widgetType: widget.getType(),
-                widgetStyle: widget.getWidgetStyles(),
                 widgetDimensions: widget.getDimensions(),
+                widgetStyle: widget.getWidgetStyles(),
                 widgetPosition: widget.getPolygon().getPoints(),
+                widgetType: widget.getType(),
+                widgetName: widget.getId(),
             };
         });
 
@@ -65,4 +67,6 @@ export class WidgetRepository {
         const url: string = 'https://symfony-sandbox.dev.wrenkitchens.com/saved-plans/add';
         sendData(fileName, jsonEmail, jsonSavedPlan, url);
     }
+
+    public loadPlan(planToDisplay: string[]) {}
 }

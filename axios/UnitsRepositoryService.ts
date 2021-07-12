@@ -3,6 +3,7 @@ import { UNIT_MAPPING } from '../src/canvas/UnitsMap';
 import { UnitStyle } from '../src/canvas/UnitUtils';
 import { WidgetStyle } from '../src/canvas/UnitUtils';
 import axios from 'axios';
+import { type } from 'os';
 
 export interface IncomingUnitData {
     type: string;
@@ -40,38 +41,6 @@ class UnitsRepositoryService {
         await this.cacheUnits(`${baseUrl}/decor-end-panels`, 5);
         await this.cacheUnits(`${baseUrl}/worktops`, 5);
         await this.fallBackData();
-    }
-
-    public getList(type: string): Map<string, WidgetUnitData> {
-        switch (type) {
-            case 'Base Units': {
-                return this.BaseUnits;
-            }
-            case 'Wall Units': {
-                return this.WallUnits;
-            }
-            case 'Tower Units': {
-                return this.TowerUnits;
-            }
-            case 'Decor Units': {
-                return this.DecorUnits;
-            }
-            case 'Worktop Units': {
-                return this.WorktopUnits;
-            }
-        }
-    }
-
-    public getUnit(name: string, type: string): WidgetUnitData {
-        type = this.capitalizeFirstLetter(type);
-        if (type === 'Decor-end-panel') {
-            type = 'Decor Units';
-        } else {
-            type = type.concat(' Units');
-        }
-
-        const units = this.getList(type);
-        return units.get(name);
     }
 
     private async cacheUnits(url: string, listLength: number) {
@@ -165,6 +134,38 @@ class UnitsRepositoryService {
             },
             dimensions: unit.dimensions,
         });
+    }
+
+    public getList(type: string): Map<string, WidgetUnitData> {
+        switch (type) {
+            case 'Base Units': {
+                return this.BaseUnits;
+            }
+            case 'Wall Units': {
+                return this.WallUnits;
+            }
+            case 'Tower Units': {
+                return this.TowerUnits;
+            }
+            case 'Decor Units': {
+                return this.DecorUnits;
+            }
+            case 'Worktop Units': {
+                return this.WorktopUnits;
+            }
+        }
+    }
+
+    public getUnit(name: string, type: string): WidgetUnitData {
+        type = this.capitalizeFirstLetter(type);
+        if (type === 'Decor-end-panel') {
+            type = 'Decor Units';
+        } else {
+            type = type.concat(' Units');
+        }
+
+        const units = this.getList(type);
+        return units.get(name);
     }
 
     private capitalizeFirstLetter(string: string) {
