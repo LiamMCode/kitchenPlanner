@@ -26,9 +26,6 @@ export function sendData(fileName: string, email: string, contents: string, url:
 }
 
 export function getData(url: string): void {
-    // routes ALLDATA from user /data/saved-plans?username=email@email.com
-    // routes SPECIFIC from user /data/saved-plans?username=email@email.com&filename=exampleFile
-
     const dataToCollect = axios.create({
         baseURL: url,
         headers: {

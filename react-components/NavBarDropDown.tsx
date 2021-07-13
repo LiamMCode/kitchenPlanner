@@ -2,7 +2,6 @@ import * as React from 'react';
 import { widgetRepository } from '../index';
 import { WidgetUnitData, unitsRepositoryService } from '../axios/UnitsRepositoryService';
 import { Widget } from '../src/canvas/Widget';
-import { UnitSize } from 'app/canvas/WidgetRepository';
 
 interface hoveredState {
     isHovered: boolean;

@@ -1,8 +1,7 @@
+import axios from 'axios';
 import { Dimensions } from '../src/canvas/Dimensions';
 import { UNIT_MAPPING } from '../src/canvas/UnitsMap';
-import { UnitStyle } from '../src/canvas/UnitUtils';
-import { WidgetStyle } from '../src/canvas/UnitUtils';
-import axios from 'axios';
+import { UnitStyle, WidgetStyle } from '../src/canvas/UnitUtils';
 
 export interface IncomingUnitData {
     type: string;
@@ -68,6 +67,9 @@ class UnitsRepositoryService {
                         case 'worktop': {
                             this.populateMaps(this.WorktopUnits, obj);
                             break;
+                        }
+                        default: {
+                            console.log(obj.type);
                         }
                     }
                 });
@@ -142,7 +144,7 @@ class UnitsRepositoryService {
         type: string,
         name: string,
         unit: UnitStyle,
-    ) {
+    ): Map<string, WidgetUnitData> {
         list.set(name, {
             type,
             name,
@@ -153,6 +155,7 @@ class UnitsRepositoryService {
             dimensions: unit.dimensions,
             price: unit.price,
         });
+        return list;
     }
 
     public getList(type: string): Map<string, WidgetUnitData> {
@@ -172,19 +175,22 @@ class UnitsRepositoryService {
             case 'Worktop Units': {
                 return this.WorktopUnits;
             }
+            default: {
+                console.log(type);
+            }
         }
     }
 
     public getUnit(name: string, type: string): WidgetUnitData {
-        type = this.capitalizeFirstLetter(type);
+        let widgetType = this.capitalizeFirstLetter(type);
 
-        if (type === 'Decor-end-panel') {
-            type = 'Decor Units';
+        if (widgetType === 'Decor-end-panel') {
+            widgetType = 'Decor Units';
         } else {
-            type = type.concat(' Units');
+            widgetType = widgetType.concat(' Units');
         }
 
-        const units = this.getList(type);
+        const units = this.getList(widgetType);
 
         return units.get(name);
     }

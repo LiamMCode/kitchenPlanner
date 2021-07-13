@@ -4,7 +4,7 @@ import { Point } from './Point';
 import { Vector } from './Vector';
 
 export class Polygon {
-    private rotation: number = 0;
+    private rotation = 0;
 
     constructor(private dimensions: Dimensions, private points: Point[]) {}
 

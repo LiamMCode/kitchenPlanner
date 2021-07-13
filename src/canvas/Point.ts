@@ -54,9 +54,9 @@ export class Point {
 
     public equals(point: Point): boolean {
         return (
-            FuzzyMath.eq(this.getX(), point.getX()) &&
-            FuzzyMath.eq(this.getY(), point.getY()) &&
-            FuzzyMath.eq(this.getZ(), point.getZ())
+            FuzzyMath.eq(this.getX(), point.getX())
+            && FuzzyMath.eq(this.getY(), point.getY())
+            && FuzzyMath.eq(this.getZ(), point.getZ())
         );
     }
 

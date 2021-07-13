@@ -1,4 +1,4 @@
-import { LayerPainter } from './LayerPainter'; // reason for this linting rule "import/no-unresolved": "off"
+import { LayerPainter } from '../canvas/LayerPainter'; // reason for this linting rule "import/no-unresolved": "off"
 import { RenderingContext } from './RenderingContext';
 
 export class WorldPainter {

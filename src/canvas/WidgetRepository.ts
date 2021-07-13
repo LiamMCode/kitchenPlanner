@@ -49,25 +49,23 @@ export class WidgetRepository {
     }
 
     public saveAndSerialise(name: string, email: string): void {
-        const widgetsOnPlan: DataToSend[] = this.widgets.map((widget) => {
-            return {
+        const widgetsOnPlan: DataToSend[] = this.widgets.map((widget) => ({
                 widgetDimensions: widget.getDimensions(),
                 widgetStyle: widget.getWidgetStyles(),
                 widgetPosition: widget.getPolygon().getPoints(),
                 widgetType: widget.getType(),
                 widgetName: widget.getId(),
-            };
-        });
+            }));
 
         const jsonSavedPlan: string = JSON.stringify(widgetsOnPlan);
         const jsonEmail: string = JSON.stringify(email);
         const jsonPlanName: string = JSON.stringify(name).replace('"', '');
 
         const regex = new RegExp(/"/);
-        const fileName: string = jsonPlanName + '.json';
+        const fileName = `${jsonPlanName}.json`;
         const filePath = fileName.replace(regex, '');
 
-        const url: string = 'https://symfony-sandbox.dev.wrenkitchens.com/saved-plans/add';
+        const url = 'https://symfony-sandbox.dev.wrenkitchens.com/saved-plans/add';
         sendData(filePath, jsonEmail, jsonSavedPlan, url);
     }
 

@@ -1,7 +1,7 @@
+import { Widget } from 'canvas/Widget';
 import { Camera } from './Camera';
 import { Point } from './Point';
 import { WidgetRepository } from './WidgetRepository';
-import { Widget } from 'canvas/Widget';
 import { Matrix } from './Matrix';
 
 export class MouseEventRouter {
@@ -79,6 +79,7 @@ export class MouseEventRouter {
             this.lastSelectedWidget = undefined;
         }
     }
+
     public onRotate(rotation: number): void {
         if (this.lastSelectedWidget) {
             const radian = (Math.PI * rotation) / 180.0;
@@ -98,6 +99,7 @@ export class MouseEventRouter {
             this.lastSelectedWidget.getPolygon().setPoints(translation.getPoints());
         }
     }
+
     public calculateMinMax(polygonRotation: number): number[] {
         switch (polygonRotation) {
             case 0:
@@ -127,6 +129,8 @@ export class MouseEventRouter {
             case -90: {
                 return [2, 0];
             }
+            default:
+                return [3, 1];
         }
     }
 }
