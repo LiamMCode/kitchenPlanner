@@ -39,13 +39,11 @@ export class MouseEventRouter {
             const boundingBox = widget.getBoundingBox(this.camera);
             polygonRotation = widget.getPolygon().getRotation();
 
-            console.log(polygonRotation, widget.getPolygon().getRotation());
             if (polygonRotation === 360 || polygonRotation === -360) {
                 widget.getPolygon().resetRotation();
                 polygonRotation = 0;
             }
 
-            console.log(polygonRotation, widget.getPolygon().getRotation());
             if (polygonRotation < 360 && polygonRotation > -360) {
                 this.pointsWithin = this.calculateMinMax(polygonRotation);
                 widget.setSelected(

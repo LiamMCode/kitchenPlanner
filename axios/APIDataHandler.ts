@@ -13,7 +13,6 @@ export function sendData(fileName: string, email: string, contents: string, url:
             contents,
         },
     });
-    console.log(fileName);
 
     dataToSend.post(url).then(
         (response) => {

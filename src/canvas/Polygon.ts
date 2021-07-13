@@ -48,7 +48,6 @@ export class Polygon {
     }
 
     public setRotation(rotation: number): void {
-        console.log(rotation);
         this.rotation += rotation;
     }
 
