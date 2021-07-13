@@ -26,7 +26,6 @@ export class AxisAlignedBoundingBox {
         pointsWithin: number[],
     ): boolean {
         const polygonPoints = widget.getPolygon().getPoints();
-        console.log(pointsWithin);
         return (
             mousePosition.gte(polygonPoints[pointsWithin[0]]) &&
             mousePosition.lte(polygonPoints[pointsWithin[1]])

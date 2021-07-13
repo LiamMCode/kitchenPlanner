@@ -123,7 +123,7 @@ class UnitsRepositoryService {
             if (!this.WorktopUnits.size) {
                 this.backUpData(
                     this.WorktopUnits,
-                    'worktops',
+                    'worktop',
                     'WorktopSizeA',
                     UNIT_MAPPING.WorktopSizeA,
                 );
@@ -185,8 +185,6 @@ class UnitsRepositoryService {
         }
 
         const units = this.getList(type);
-
-        console.log(units, name);
 
         return units.get(name);
     }
