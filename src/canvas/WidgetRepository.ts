@@ -61,11 +61,14 @@ export class WidgetRepository {
 
         const jsonSavedPlan: string = JSON.stringify(widgetsOnPlan);
         const jsonEmail: string = JSON.stringify(email);
-        const jsonPlanName: string = JSON.stringify(name);
+        const jsonPlanName: string = JSON.stringify(name).replace('"', '');
+
+        const regex = new RegExp(/"/);
         const fileName: string = jsonPlanName + '.json';
+        const filePath = fileName.replace(regex, '');
 
         const url: string = 'https://symfony-sandbox.dev.wrenkitchens.com/saved-plans/add';
-        sendData(fileName, jsonEmail, jsonSavedPlan, url);
+        sendData(filePath, jsonEmail, jsonSavedPlan, url);
     }
 
     public loadPlan(planToDisplay: string[]) {}

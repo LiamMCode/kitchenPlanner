@@ -73,6 +73,8 @@ export class NavBar extends React.Component<{}, {}> {
         mouseEventRouter.onRotate(rotation);
     };
 
+    private basket = (): void => {};
+
     public render(): React.ReactNode {
         return (
             <>
@@ -85,15 +87,15 @@ export class NavBar extends React.Component<{}, {}> {
                         <NavBarDropDown title={'Worktop Units'} />
 
                         <li className='nav-link' id='NewPlan' onClick={this.newPlan}>
-                            New Plan
+                            <i className='fa fa-file'> New Plan </i>
                         </li>
 
                         <li className='nav-link' id='SavePlan' onClick={this.savePlan}>
-                            Save Plan
+                            <i className='fa fa-floppy-o'> Save Plan </i>
                         </li>
 
                         <li className='nav-link' id='LoadPlan' onClick={this.loadPlan}>
-                            Load Plan
+                            <i className='fa fa-folder-open'>Load Plan </i>
                         </li>
 
                         <li className='nav-link' id='deleteUnit' onClick={this.deleteUnit}>
@@ -106,6 +108,10 @@ export class NavBar extends React.Component<{}, {}> {
 
                         <li className='nav-link' id='rotationPlus' onClick={() => this.rotate(-45)}>
                             <i className='fa fa-minus'> Rotate AntiClockwise</i>
+                        </li>
+
+                        <li className='nav-link' id='rotationPlus' onClick={this.basket}>
+                            <i className='fa fa-shopping-basket'> Basket </i>
                         </li>
                     </div>
                 </nav>

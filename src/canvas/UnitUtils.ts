@@ -12,6 +12,7 @@ export interface UnitStyle {
         fillColour: string;
     };
     dimensions: Dimensions;
+    price: number;
     unitID: number;
 }
 

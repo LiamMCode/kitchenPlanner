@@ -3,7 +3,6 @@ import { UNIT_MAPPING } from '../src/canvas/UnitsMap';
 import { UnitStyle } from '../src/canvas/UnitUtils';
 import { WidgetStyle } from '../src/canvas/UnitUtils';
 import axios from 'axios';
-import { type } from 'os';
 
 export interface IncomingUnitData {
     type: string;
@@ -11,11 +10,7 @@ export interface IncomingUnitData {
     fillColour: string;
     borderColour?: string;
     dimensions: number[];
-    // can extend to price if basket system gets implemented
-    // price: Intl.NumberFormat('en-US', {
-    //    style: 'currency',
-    //    currency: 'GBP'
-    // });
+    price: number;
 }
 
 export interface WidgetUnitData {
@@ -23,6 +18,7 @@ export interface WidgetUnitData {
     name: string;
     widgetStyle: WidgetStyle;
     dimensions: Dimensions;
+    price: number;
 }
 
 type WidgetUnitDataMap = Map<string, WidgetUnitData>;
@@ -37,43 +33,50 @@ class UnitsRepositoryService {
     public async loadData() {
         const baseUrl = 'https://symfony-sandbox.dev.wrenkitchens.com/data';
 
-        await this.cacheUnits(`${baseUrl}/units`, 49);
-        await this.cacheUnits(`${baseUrl}/decor-end-panels`, 5);
-        await this.cacheUnits(`${baseUrl}/worktops`, 5);
-        await this.fallBackData();
+        await this.cacheUnits(`${baseUrl}/units`, 'units');
+        await this.cacheUnits(`${baseUrl}/decor-end-panels`, 'decor');
+        await this.cacheUnits(`${baseUrl}/worktops`, 'worktops');
     }
 
-    private async cacheUnits(url: string, listLength: number) {
-        await axios.get(url).then((res) => {
-            const allData = res.data['hydra:member'];
+    private async cacheUnits(url: string, listsFilling: string, listLength?: number) {
+        await axios.get(url).then(
+            (res) => {
+                const allData = res.data['hydra:member'];
 
-            allData.splice(listLength, allData.length - listLength);
-
-            allData.forEach((obj: IncomingUnitData) => {
-                switch (obj.type) {
-                    case 'wall': {
-                        this.populateMaps(this.WallUnits, obj);
-                        break;
-                    }
-                    case 'base': {
-                        this.populateMaps(this.BaseUnits, obj);
-                        break;
-                    }
-                    case 'tower': {
-                        this.populateMaps(this.TowerUnits, obj);
-                        break;
-                    }
-                    case 'decor-end-panel': {
-                        this.populateMaps(this.DecorUnits, obj);
-                        break;
-                    }
-                    case 'worktop': {
-                        this.populateMaps(this.WorktopUnits, obj);
-                        break;
-                    }
+                if (listLength) {
+                    allData.splice(listLength, allData.length - listLength);
                 }
-            });
-        });
+
+                allData.forEach((obj: IncomingUnitData) => {
+                    switch (obj.type) {
+                        case 'wall': {
+                            this.populateMaps(this.WallUnits, obj);
+                            break;
+                        }
+                        case 'base': {
+                            this.populateMaps(this.BaseUnits, obj);
+                            break;
+                        }
+                        case 'tower': {
+                            this.populateMaps(this.TowerUnits, obj);
+                            break;
+                        }
+                        case 'decor-end-panel': {
+                            this.populateMaps(this.DecorUnits, obj);
+                            break;
+                        }
+                        case 'worktop': {
+                            this.populateMaps(this.WorktopUnits, obj);
+                            break;
+                        }
+                    }
+                });
+            },
+            (error) => {
+                console.log(error);
+                this.fallBackData(listsFilling);
+            },
+        );
     }
 
     private populateMaps(list: Map<string, WidgetUnitData>, obj: IncomingUnitData): void {
@@ -93,29 +96,44 @@ class UnitsRepositoryService {
                 borderColour: `#${obj.borderColour!}`,
             },
             dimensions,
+            price: obj.price,
         });
     }
 
-    private async fallBackData() {
-        if (!this.BaseUnits.size) {
-            this.backUpData(this.BaseUnits, 'base', 'unit1', UNIT_MAPPING.BaseSizeA);
-            this.backUpData(this.BaseUnits, 'base', 'unit2', UNIT_MAPPING.BaseSizeB);
-        }
-        if (!this.WallUnits.size) {
-            this.backUpData(this.WallUnits, 'wall', 'unit1', UNIT_MAPPING.WallSizeA);
-            this.backUpData(this.WallUnits, 'wall', 'unit2', UNIT_MAPPING.WallSizeB);
-        }
-        if (!this.TowerUnits.size) {
-            this.backUpData(this.TowerUnits, 'tower', 'unit1', UNIT_MAPPING.TowerSizeA);
-            this.backUpData(this.TowerUnits, 'tower', 'unit2', UNIT_MAPPING.TowerSizeB);
-        }
-        if (!this.DecorUnits.size) {
-            this.backUpData(this.DecorUnits, 'decor', 'unit1', UNIT_MAPPING.DecorSizeA);
-            this.backUpData(this.DecorUnits, 'decor', 'unit2', UNIT_MAPPING.DecorSizeB);
-        }
-        if (!this.WorktopUnits.size) {
-            this.backUpData(this.WorktopUnits, 'worktops', 'unit1', UNIT_MAPPING.WorktopSizeA);
-            this.backUpData(this.WorktopUnits, 'worktops', 'unit2', UNIT_MAPPING.WorktopSizeB);
+    private async fallBackData(list: string) {
+        if (list === 'units') {
+            if (!this.BaseUnits.size) {
+                this.backUpData(this.BaseUnits, 'base', 'BaseSizeA', UNIT_MAPPING.BaseSizeA);
+                this.backUpData(this.BaseUnits, 'base', 'BaseSizeB', UNIT_MAPPING.BaseSizeB);
+            }
+            if (!this.WallUnits.size) {
+                this.backUpData(this.WallUnits, 'wall', 'WallSizeA', UNIT_MAPPING.WallSizeA);
+                this.backUpData(this.WallUnits, 'wall', 'WallSizeB', UNIT_MAPPING.WallSizeB);
+            }
+            if (!this.TowerUnits.size) {
+                this.backUpData(this.TowerUnits, 'tower', 'TowerSizeA', UNIT_MAPPING.TowerSizeA);
+                this.backUpData(this.TowerUnits, 'tower', 'TowerSizeB', UNIT_MAPPING.TowerSizeB);
+            }
+        } else if (list === 'decor') {
+            if (!this.DecorUnits.size) {
+                this.backUpData(this.DecorUnits, 'decor', 'DecorSizeA', UNIT_MAPPING.DecorSizeA);
+                this.backUpData(this.DecorUnits, 'decor', 'DecorSizeB', UNIT_MAPPING.DecorSizeB);
+            }
+        } else if (list === 'worktops') {
+            if (!this.WorktopUnits.size) {
+                this.backUpData(
+                    this.WorktopUnits,
+                    'worktops',
+                    'WorktopSizeA',
+                    UNIT_MAPPING.WorktopSizeA,
+                );
+                this.backUpData(
+                    this.WorktopUnits,
+                    'worktop',
+                    'WorktopSizeB',
+                    UNIT_MAPPING.WorktopSizeB,
+                );
+            }
         }
     }
 
@@ -125,7 +143,7 @@ class UnitsRepositoryService {
         name: string,
         unit: UnitStyle,
     ) {
-        list.set(list.size.toString(), {
+        list.set(name, {
             type,
             name,
             widgetStyle: {
@@ -133,6 +151,7 @@ class UnitsRepositoryService {
                 borderColour: unit.widgetStyle.borderColour,
             },
             dimensions: unit.dimensions,
+            price: unit.price,
         });
     }
 
@@ -158,6 +177,7 @@ class UnitsRepositoryService {
 
     public getUnit(name: string, type: string): WidgetUnitData {
         type = this.capitalizeFirstLetter(type);
+
         if (type === 'Decor-end-panel') {
             type = 'Decor Units';
         } else {
@@ -165,6 +185,9 @@ class UnitsRepositoryService {
         }
 
         const units = this.getList(type);
+
+        console.log(units, name);
+
         return units.get(name);
     }
 
