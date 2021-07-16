@@ -7,7 +7,6 @@ import { WidgetStyle } from './UnitUtils';
 
 export class Widget {
     private polygon: Polygon;
-
     private selected: boolean;
 
     constructor(

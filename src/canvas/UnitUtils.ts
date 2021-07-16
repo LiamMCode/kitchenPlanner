@@ -1,9 +1,21 @@
 import { Dimensions } from './Dimensions';
-import { UnitSize } from './WidgetRepository';
 
 export interface WidgetStyle {
     fillColour: string;
     borderColour: string;
+}
+
+export enum UnitSize {
+    WallSizeA = 'WallSizeA',
+    WallSizeB = 'WallSizeB',
+    BaseSizeA = 'BaseSizeA',
+    BaseSizeB = 'BaseSizeB',
+    TowerSizeA = 'TowerSizeA',
+    TowerSizeB = 'TowerSizeB',
+    DecorSizeA = 'DecorSizeA',
+    DecorSizeB = 'DecorSizeB',
+    WorktopSizeA = 'WorktopSizeA',
+    WorktopSizeB = 'WorktopSizeB',
 }
 
 export interface UnitStyle {

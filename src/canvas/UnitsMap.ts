@@ -1,6 +1,5 @@
 import { Dimensions } from './Dimensions';
-import { UnitSize } from './WidgetRepository';
-import { UnitMapping } from './UnitUtils';
+import { UnitMapping, UnitSize } from './UnitUtils';
 
 export const UNIT_MAPPING: UnitMapping = {
     [UnitSize.WallSizeA]: {

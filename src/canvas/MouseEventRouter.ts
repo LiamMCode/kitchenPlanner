@@ -1,4 +1,4 @@
-import { Widget } from 'canvas/Widget';
+import { Widget } from './Widget';
 import { Camera } from './Camera';
 import { Point } from './Point';
 import { WidgetRepository } from './WidgetRepository';

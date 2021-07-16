@@ -4,19 +4,6 @@ import { WidgetStyle } from './UnitUtils';
 import { Widget } from './Widget';
 import { sendData } from '../../axios/APIDataHandler';
 
-export enum UnitSize {
-    WallSizeA = 'WallSizeA',
-    WallSizeB = 'WallSizeB',
-    BaseSizeA = 'BaseSizeA',
-    BaseSizeB = 'BaseSizeB',
-    TowerSizeA = 'TowerSizeA',
-    TowerSizeB = 'TowerSizeB',
-    DecorSizeA = 'DecorSizeA',
-    DecorSizeB = 'DecorSizeB',
-    WorktopSizeA = 'WorktopSizeA',
-    WorktopSizeB = 'WorktopSizeB',
-}
-
 interface DataToSend {
     widgetDimensions: Dimensions;
     widgetStyle: WidgetStyle;
@@ -61,7 +48,7 @@ export class WidgetRepository {
         const jsonEmail: string = JSON.stringify(email);
         const jsonPlanName: string = JSON.stringify(name).replace('"', '');
 
-        const regex = new RegExp(/"/);
+        const regex = new RegExp(/"/); //removes the speech marks from the filename
         const fileName = `${jsonPlanName}.json`;
         const filePath = fileName.replace(regex, '');
 
