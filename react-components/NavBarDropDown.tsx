@@ -38,6 +38,11 @@ export class NavBarDropDown extends React.Component<UnitListBoxProps, hoveredSta
         widgetRepository.add(widget);
     };
 
+    private onNavUnitClick(name: string, type: string) {
+        this.spawnUnit(name, type);
+        this.updateState();
+    }
+
     public render(): React.ReactNode {
         const DataList = Array.from(this.state.list);
         return (
@@ -46,7 +51,7 @@ export class NavBarDropDown extends React.Component<UnitListBoxProps, hoveredSta
                     {this.props.title} ▼
                 </div>
                 {this.state.isHovered && (
-                    <div className='dropdown-content' onMouseLeave={this.updateState}>
+                    <div className='dropdown-content' onMouseOut={this.updateState}>
                         <ul>
                             {DataList.map((listItem) => {
                                 const [id, unitData] = listItem;
@@ -55,7 +60,9 @@ export class NavBarDropDown extends React.Component<UnitListBoxProps, hoveredSta
                                         className='nav-link'
                                         style={{ padding: '0px' }}
                                         key={id}
-                                        onClick={() => this.spawnUnit(unitData.name, unitData.type)}
+                                        onClick={() =>
+                                            this.onNavUnitClick(unitData.name, unitData.type)
+                                        }
                                     >
                                         {unitData.name}
                                     </li>

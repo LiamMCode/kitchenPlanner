@@ -37,7 +37,7 @@ export function getData(url: string): void {
         (response) => {
             console.log(response);
             // collect data in const and send to function in widgetRepo
-            const data: string[] = [];
+            const data = response.data['hydra:member'];
             widgetRepository.loadPlan(data);
         },
         (error) => {

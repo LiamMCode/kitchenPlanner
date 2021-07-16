@@ -28,6 +28,12 @@ export class MouseEventRouter {
             if (event.key === 'Delete') {
                 this.onDeleteEvent();
             }
+            if (event.key === 'r') {
+                this.onRotate(45);
+            }
+            if (event.key === 't') {
+                this.onRotate(-45);
+            }
         });
     }
 
@@ -102,11 +108,6 @@ export class MouseEventRouter {
 
     public calculateMinMax(polygonRotation: number): number[] {
         switch (polygonRotation) {
-            case 0:
-            case 45:
-            case -315: {
-                return [3, 1];
-            }
             case 90:
             case -270:
             case 315:

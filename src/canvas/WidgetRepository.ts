@@ -50,12 +50,12 @@ export class WidgetRepository {
 
     public saveAndSerialise(name: string, email: string): void {
         const widgetsOnPlan: DataToSend[] = this.widgets.map((widget) => ({
-                widgetDimensions: widget.getDimensions(),
-                widgetStyle: widget.getWidgetStyles(),
-                widgetPosition: widget.getPolygon().getPoints(),
-                widgetType: widget.getType(),
-                widgetName: widget.getId(),
-            }));
+            widgetDimensions: widget.getDimensions(),
+            widgetStyle: widget.getWidgetStyles(),
+            widgetPosition: widget.getPolygon().getPoints(),
+            widgetType: widget.getType(),
+            widgetName: widget.getId(),
+        }));
 
         const jsonSavedPlan: string = JSON.stringify(widgetsOnPlan);
         const jsonEmail: string = JSON.stringify(email);
@@ -69,5 +69,5 @@ export class WidgetRepository {
         sendData(filePath, jsonEmail, jsonSavedPlan, url);
     }
 
-    public loadPlan(planToDisplay: string[]) {}
+    public loadPlan(planToDisplay: any[]) {}
 }
