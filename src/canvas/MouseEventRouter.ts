@@ -20,7 +20,7 @@ export class MouseEventRouter {
             this.onMouseMove(this.camera.findMouseEvent(event));
         });
 
-        target.addEventListener('mouseup', (event: MouseEvent) => {
+        target.addEventListener('mouseup', () => {
             this.onMouseUp();
         });
 
