@@ -1,6 +1,6 @@
 import { Dimensions } from './Dimensions';
 import { Point } from './Point';
-import { WidgetStyle } from './UnitUtils';
+import { WidgetStyle } from './BackUpUnits';
 import { Widget } from './Widget';
 import { sendData } from '../../axios/APIDataHandler';
 

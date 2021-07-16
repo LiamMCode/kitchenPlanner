@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Dimensions } from '../src/canvas/Dimensions';
-import { UNIT_MAPPING } from '../src/canvas/UnitsMap';
-import { UnitStyle, WidgetStyle } from '../src/canvas/UnitUtils';
+import { UNIT_MAPPING } from '../src/canvas/BackUpUnits';
+import { UnitStyle, WidgetStyle } from '../src/canvas/BackUpUnits';
 
 export interface IncomingUnitData {
     type: string;

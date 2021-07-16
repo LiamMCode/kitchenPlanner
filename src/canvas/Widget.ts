@@ -3,7 +3,7 @@ import { Camera } from './Camera';
 import { Dimensions } from './Dimensions';
 import { Point } from './Point';
 import { Polygon } from './Polygon';
-import { WidgetStyle } from './UnitUtils';
+import { WidgetStyle } from './BackUpUnits';
 
 export class Widget {
     private polygon: Polygon;

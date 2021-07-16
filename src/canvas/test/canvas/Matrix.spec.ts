@@ -1,6 +1,6 @@
-import { Matrix } from '../../src/canvas/Matrix';
+import { Matrix } from '../../Matrix';
 import { expect } from 'chai';
-import { Point } from '../../src/canvas/Point';
+import { Point } from '../../Point';
 
 describe('Matrix', () => {
     describe('#rotateXZ', () => {
@@ -21,7 +21,8 @@ describe('Matrix', () => {
                 const matrix = Matrix.rotateXZ(angle);
                 const actual = matrix.applyToPoint(point);
 
-                expect(actual.equals(expected), [actual, expected].toString()).to.be.true;
+                expect(actual.equals(expected), [actual, expected].toString())
+                    .to.be.true;
             });
         });
     });
